@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+html, body{
+  height:100vh;
+}
+
+.container-full{
+  min-height:100vh;
+  height: 100vh;
+  margin:0px 0px 0px 0px;
+  padding:0px 0px 0px 0px;
+}
+
+.center-crop{
+  background-repeat: no-repeat;
+  background-position:center;
+  background-size:cover;
+}
+
+.img-center-crop{
+  object-position: center;
+  object-fit: cover;
+  padding: 0px;
+  margin: 0px;
+}
