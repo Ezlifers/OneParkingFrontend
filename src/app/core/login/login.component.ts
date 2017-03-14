@@ -5,7 +5,7 @@ import { User, SessionService } from '../_index';
 
 @Component({
     templateUrl: './login.component.html',
-    styles:[require('./login.component.css')],
+    styles: [require('./login.component.css')],
     providers: [LoginService]
 })
 export class LoginComponent {
@@ -23,16 +23,17 @@ export class LoginComponent {
         this.loginProcess = true;
         this.service.login(this.usuario, this.password).subscribe(
             res => this.logged(res, false),
-            error => this.logged([false, null, null], true));
+            error => this.logged([false, null, null, null], true));
     }
 
-    logged(res: [boolean, any, string], error: boolean) {
+    logged(res: [boolean, User, any, string], error: boolean) {
         this.loginProcess = false;
         if (res[0]) {
             this.session.user = res[1];
-            this.session.token = res[2];
             this.session.type = res[1].tipo;
             this.session.id = res[1]._id;
+            this.session.permission = res[2];
+            this.session.token = res[3];
             this.router.navigate(['dashboard']);
 
         } else {

@@ -7,6 +7,7 @@ export class SessionService {
     public token: string;
     public logged: boolean;
     public id: string;
+    public permission: any;
 
     reset() {
         this.user = null;
@@ -17,10 +18,30 @@ export class SessionService {
     }
 }
 
-export class User {
+export interface User {
+    _id: string;
     tipo: string;
     nombre: string;
     cedula: string;
     celular: string;
     imagen: string;
 }
+
+/*export interface Permission {
+    usuarios: PermissionAction;
+
+    configuracion: PermissionAction;
+
+}
+
+export interface PermissionAction {
+    get?: boolean;
+    getSelf?: boolean;
+    getList?: boolean;
+    insert?: boolean;
+    update?: boolean;
+    delete?: boolean;
+    resetPass?: boolean;
+    updatePass?: boolean;
+}*/
+

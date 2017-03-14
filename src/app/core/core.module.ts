@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-//import { DashboardComponent } from './dashboard/dashboard.component';
-//import { NavComponent } from './dashboard/nav-aside/nav.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { NavAsideComponent } from './dashboard/nav-aside/nav-aside.component';
 
 import { SessionService } from './session.service';
-//import { DashboardService } from './dashboard/dashboard.service';
+import { NavigationService } from './navigation.service';
 
 @NgModule({
     declarations: [
         LoginComponent,
-       // DashboardComponent,
-       // NavComponent,
+        DashboardComponent,
+        NavAsideComponent,
         NotFoundComponent
     ],
     imports: [
@@ -22,9 +22,7 @@ import { SessionService } from './session.service';
         FormsModule,
         RouterModule
     ],
-    providers: [SessionService
-    //, DashboardService
-    ]
+    providers: [SessionService, NavigationService]
 })
 
 @NgModule({

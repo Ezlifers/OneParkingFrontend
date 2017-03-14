@@ -2,13 +2,19 @@ html, body{
   height:100vh;
 }
 
-.container-full{
-  min-height:100vh;
-  height: 100vh;
+/* Dimensions */
+
+.col.nm{
   margin:0px 0px 0px 0px;
   padding:0px 0px 0px 0px;
 }
 
+.row.nm{
+  margin:0px;
+}
+
+
+/* Images */
 .center-crop{
   background-repeat: no-repeat;
   background-position:center;
