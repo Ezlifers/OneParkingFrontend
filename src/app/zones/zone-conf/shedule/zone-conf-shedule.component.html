@@ -1,0 +1,136 @@
+<div class="section">
+  <h5 class="detail-title mb">Horarios y precios
+    <i class="right material-icons grey-text" (click)="restore()">settings_backup_restore</i>
+  </h5>
+  <div class="switch">
+    <label>
+      <input #dC type="checkbox" checked *ngIf="dTimesIni" (change)="change(dC.checked)">
+      <input #dN type="checkbox" *ngIf="!dTimesIni" (change)="change(dN.checked)">
+      <span class="lever"></span>
+      Configuración por defecto
+    </label>
+  </div>
+
+  <div class="section mt" *ngIf="dTimes">
+    <div *ngFor="let tu of times">
+      <b class="blue-text">{{tu.tipo}}</b>
+      <div [ngSwitch]="tu.horarios.length">
+        <div *ngSwitchCase="0">
+          <p>No especificado</p>
+        </div>
+        <div *ngSwitchDefault>
+          <table>
+            <thead>
+              <tr>
+                <th data-field="horario">Horario</th>
+                <th data-field="tarifa">Tarifa (Tiempo Minimo)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let t of tu.horarios">
+                <td *ngIf="t.d">{{t.ti|timeMinute}} a {{t.tf|timeMinute}}</td>
+                <td *ngIf="t.d">{{t.p}}</td>
+                <td *ngIf="!t.d">No disponible</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Uso personalizado -->
+
+  <div class="section mt" *ngIf="!dTimes">
+    <div *ngFor="let tu of times; let i = index">
+      <b class="blue-text">{{tu.tipo}}</b>
+      <i class="tiny material-icons grey-text vc clickable" (click)="showDialog(tu.tipo,i)">add_circle</i>
+      <div [ngSwitch]="tu.horarios.length">
+        <div *ngSwitchCase="0">
+          <p>No especificado</p>
+        </div>
+        <div *ngSwitchDefault>
+          <table>
+            <thead>
+              <tr>
+                <th data-field="horario">Horario</th>
+                <th data-field="tarifaDefecto">Tarifa por defecto</th>
+                <th data-field="tarifa">Tarifa</th>
+                <th data-field="eliminar"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let t of tu.horarios;let j = index">
+                <td>{{t.ti|timeMinute}} a {{t.tf|timeMinute}}</td>
+                <td *ngIf="t.d">
+                  <div class="switch">
+                    <label>
+                      <input #dp type="checkbox" [checked]="t.dp" (change)="changeGlobalPrice(i,j,dp.checked)">
+                      <span class="lever"></span>
+                    </label>
+                  </div>
+                </td>
+                <td *ngIf="t.d && t.dp">{{t.p}}</td>
+                <td *ngIf="t.d && !t.dp" class="blue-text text-lighten-3 clickable" (click)="changePrice(i,j,t.p)">{{t.p}}</td>
+                <td *ngIf="!t.d" colspan="2">Parqueo prohibido</td>
+                <td>
+                  <i class="tiny material-icons grey-text vc clickable" (click)="removeTime(i,j)">cancel</i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="addDialog" class="modal">
+    <form #addForm="ngForm">
+      <div class="modal-content">
+        <h5>Agregar Horario</h5>
+        <h6>{{titleDialog}}</h6>
+        <div class="row mt">
+          <p>
+            <input name="dis" type="checkbox" #dis id="dis" [(ngModel)]="addDis" />
+            <label for="dis">Disponible para parquear</label>
+          </p>
+          <div class="input-field col s12 m6" *ngIf="addDis">
+            <input name="desde" type="time" class="validate" [(ngModel)]="addTi" #ti required>
+            <label class="active" for="ti">Desde</label>
+          </div>
+          <div class="input-field col s12 m6" *ngIf="addDis">
+            <input name="hasta" type="time" class="validate" [(ngModel)]="addTf" #tf required>
+            <label class="active" for="tf">Hasta</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a *ngIf="!addDis || addForm.valid" (click)="addTime()" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+      </div>
+    </form>
+  </div>
+
+  <div id="changePrice" class="modal">
+    <div class="modal-content">
+      <h5>Nuevo Precio</h5>
+      <div class="row mt">
+        <div class="input-field col s12 m6">
+          <input type="number" class="validate" min="0" [(ngModel)]="price" #fixP="ngModel" required>
+          <label class="active" for="fixP">Precio</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a *ngIf="fixP.valid" (click)="fixPrice()" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
+      <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <a class="waves-effect waves-light btn col s12 m8 l3" (click)="save()">Guardar</a>
+  </div>
+
+</div>

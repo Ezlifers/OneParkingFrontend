@@ -1,0 +1,44 @@
+<div class="section">
+    <h5 class="mb">Auxiliares <i class="material-icons grey-text right clickable" (click)="removeDialog()">clear_all</i></h5>
+
+    <app-loader [size]="small" [show]="!auxs" [center]="true"></app-loader>
+
+    <div *ngIf="auxs && auxs.length == 0">Auxiliares no asignados</div>
+
+    <div *ngFor="let a of auxs; let i = index">
+        <div class="container-horizontal mt">
+            <div>
+                <img class="mr-small circle" src="{{service.urlBase+a.imagen}}" width="50px" height="50px" />
+            </div>
+            <div>
+                <div>
+                    <b>{{a.nombre}}</b>
+                </div>
+                <div>
+                    <b>celular</b> {{a.celular}}
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <ul class="collection">
+                <div *ngFor="let z of a.zonas; let j = index">
+                    <li class="collection-item" *ngIf="z.id == zone._id">
+                        <app-zone-aux [zone]="z" [aux]="a" [index]="j"></app-zone-aux>
+                    </li>
+                </div>
+
+            </ul>
+        </div>
+    </div>
+
+</div>
+<div id="removeDialog" class="modal">
+    <div class="modal-content">
+        <h5>Remover Auiliares</h5>
+        <p class="mb">Remover todos los auxiliares vinculados con la zona?</p>
+        <div class="modal-footer">
+            <a (click)="remove()" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
+            <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+        </div>
+    </div>
+</div>

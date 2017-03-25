@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app.routing';
 
-import { CoreModule } from './core/core.module';
+import { CoreModule } from './+core/core.module';
+import { ZonesModule } from './zones/zones.module';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -20,6 +21,7 @@ import { AppComponent } from './app.component';
     FormsModule,
     HttpModule,
     CoreModule,
+    ZonesModule,
     AppRoutingModule
   ],
   providers: [],
