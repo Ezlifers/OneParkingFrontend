@@ -6,6 +6,7 @@ import { LoginComponent } from './+core/login/login.component';
 import { DashboardComponent } from './+core/dashboard/dashboard.component';
 
 import { zoneRoutes } from './zones/zones.routing';
+import { auxRoutes } from './auxs/auxs.routing';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -13,6 +14,7 @@ const appRoutes: Routes = [
     {
         path: 'dashboard', component: DashboardComponent, children: [
             ...zoneRoutes,
+            ...auxRoutes,
             { path: '', redirectTo: 'zonas', pathMatch: 'full' }
         ]
     },

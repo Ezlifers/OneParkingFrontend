@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app.routing';
 
 import { CoreModule } from './+core/core.module';
 import { ZonesModule } from './zones/zones.module';
+import { AuxsModule } from './auxs/auxs.module';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -22,6 +23,7 @@ import { AppComponent } from './app.component';
     HttpModule,
     CoreModule,
     ZonesModule,
+    AuxsModule,
     AppRoutingModule
   ],
   providers: [],

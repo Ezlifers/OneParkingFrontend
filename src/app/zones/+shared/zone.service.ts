@@ -53,7 +53,7 @@ export class ZoneService extends HttpClientService {
     }
 
     public updateDisability(id: string, pos: number, dis: boolean): Observable<boolean> {
-        const body = { pos: pos,  dis: dis };
+        const body = { pos: pos, dis: dis };
         return this.put(`${this.url}/${id}/bahias/discapacidad`, body, true).map(this.process).catch(this.handleError);
     }
 

@@ -42,7 +42,7 @@
   <!-- Uso personalizado -->
 
   <div class="section mt" *ngIf="!dTimes">
-    <div *ngFor="let tu of times; let i = index">
+    <div *ngFor="let tu of times; index as i">
       <b class="blue-text">{{tu.tipo}}</b>
       <i class="tiny material-icons grey-text vc clickable" (click)="showDialog(tu.tipo,i)">add_circle</i>
       <div [ngSwitch]="tu.horarios.length">
@@ -60,7 +60,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let t of tu.horarios;let j = index">
+              <tr *ngFor="let t of tu.horarios;index as j">
                 <td>{{t.ti|timeMinute}} a {{t.tf|timeMinute}}</td>
                 <td *ngIf="t.d">
                   <div class="switch">

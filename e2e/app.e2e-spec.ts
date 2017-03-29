@@ -1,6 +1,6 @@
 import { OneParkingPage } from './app.po';
 
-describe('one-parking App', function() {
+describe('one-parking App', () => {
   let page: OneParkingPage;
 
   beforeEach(() => {

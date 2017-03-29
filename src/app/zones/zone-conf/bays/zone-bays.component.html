@@ -4,7 +4,7 @@
     </h5>
     <div class="section">
         <ul class="collection">
-            <li class="collection-item" *ngFor="let b of bays; let i=index">
+            <li class="collection-item" *ngFor="let b of bays; index as i">
                 <app-zone-bay [bay]="b" [id]="id" [index]="i"></app-zone-bay>
             </li>
         </ul>

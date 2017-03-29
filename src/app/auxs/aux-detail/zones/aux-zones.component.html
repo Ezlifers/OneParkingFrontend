@@ -1,0 +1,18 @@
+<div class="section">
+    <h5 class="detail-title">Zonas
+        <div class="right">
+            <i class="material-icons grey-text" (click)="assingZone()">add</i>
+        </div>
+    </h5>
+
+    <div class="section">
+        <ul class="collection" *ngIf="selected.aux.zonas.length > 0">
+            <li class="collection-item" *ngFor="let z of selected.aux.zonas; index as i">
+                <app-aux-zone [zone]="z" [index]="i"></app-aux-zone>
+            </li>
+        </ul>
+        <p *ngIf="selected.aux.zonas.length == 0" class="mt mb">
+            No se han asignado zonas.
+        </p>
+    </div>
+</div>

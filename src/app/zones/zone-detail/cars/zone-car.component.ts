@@ -19,7 +19,7 @@ export class ZoneCarComponent implements OnInit, OnDestroy {
     extra: boolean;
     alarm: boolean;
     time: number;
-    interval: NodeJS.Timer;
+    interval: any;
 
     constructor() {
         this.extra = false;

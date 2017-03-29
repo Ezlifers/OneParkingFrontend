@@ -5,7 +5,11 @@ import { URL_BASE } from '../../app.settings';
 
 export abstract class HttpClientService {
 
-    constructor(protected http: Http, protected session: SessionService) { }
+    urlBase: string;
+
+    constructor(protected http: Http, protected session: SessionService) {
+        this.urlBase = URL_BASE;
+    }
 
     protected get(url: string, auth: boolean): Observable<Response> {
         const data: [string, string, RequestOptions] = this.makeRequestData(url, null, auth);
@@ -33,7 +37,7 @@ export abstract class HttpClientService {
     }
 
     private makeRequestData(url: string, body: any, auth: boolean): [string, string, RequestOptions] {
-        const u = URL_BASE + url;
+        const u = this.urlBase + url;
 
         let bodyJson: string = null;
         if (body) {

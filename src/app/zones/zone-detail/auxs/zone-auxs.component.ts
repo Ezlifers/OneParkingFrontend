@@ -17,12 +17,13 @@ export class ZoneAuxsComponent implements OnInit {
     constructor(private service: ZoneService) { }
 
     ngOnInit() {
+        $('.modal').modal();
         this.service.getAuxs(this.zone._id)
             .subscribe(res => this.auxs = res, err => Materialize.toast('Error al recuperar los auxiliares', 4000));
     }
 
     removeDialog() {
-        $('#removeDialog').openModal();
+        $('#removeDialog').modal('open');
     }
 
     remove() {

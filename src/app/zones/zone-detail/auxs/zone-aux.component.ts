@@ -1,13 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ZoneAux, Aux } from '../../../auxs/+shared/_index';
 import { ZoneService } from '../../+shared/_index';
+import { AuxService } from '../../../auxs/+shared/_index';
 
 declare var Materialize: any;
 
 @Component({
     selector: 'app-zone-aux',
     templateUrl: './zone-aux.component.html',
-    //providers: [AuxService]
+    providers: [AuxService]
 })
 export class ZoneAuxComponent implements OnInit {
 
@@ -17,7 +18,7 @@ export class ZoneAuxComponent implements OnInit {
 
     days: boolean[];
 
-    constructor() {//private service: AuxService) {
+    constructor(private service: AuxService) {
         this.days = [false, false, false, false, false, false, false];
     }
 
@@ -26,11 +27,11 @@ export class ZoneAuxComponent implements OnInit {
     }
 
     remove() {
-        /*this.service.removeZone(this.aux._id, this.zone)
+        this.service.removeZone(this.aux._id, this.zone)
             .subscribe(
             res => this.removed(res),
             err => this.removed(false)
-            );*/
+            );
     }
 
     removed(success: boolean) {

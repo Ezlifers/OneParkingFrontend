@@ -4,6 +4,10 @@ html, body{
 
 /* Dimensions */
 
+.nm {
+  margin: 0px;
+}
+
 .col.nm{
   margin:0px 0px 0px 0px;
   padding:0px 0px 0px 0px;
@@ -13,18 +17,37 @@ html, body{
   margin:0px;
 }
 
+.m{
+  margin: 20px;
+}
+
+.m-small{
+  margin: 10px;
+}
+
 .mb{
   margin-bottom: 20px;
+}
+
+.mb-small{
+  margin-bottom: 10px;
 }
 
 .mt{
   margin-top: 20px;
 }
 
+.mt-small{
+  margin-top: 10px;
+}
+
+.mr{
+  margin-right: 20px;
+}
+
 .mr-small{
   margin-right: 10px;
 }
-
 
 /* Images */
 .center-crop{
@@ -46,6 +69,22 @@ html, body{
 }
 
 /* Custom */
+
+.card-horizontal{
+  display: flex;
+  flex-direction: row;
+}
+
+.card-horizontal > img{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.card-horizontal > div{
+  flex: 1;
+  vertical-align: top;
+}
 
 .detail-title i{
   margin-left: 10px;
@@ -99,4 +138,12 @@ html, body{
 
 .material-icons.vc, .btn-floating.vc{
   vertical-align:middle;
+}
+
+.card-content.p-small{
+  padding: 10px;
+}
+
+.card-content.nm{
+  margin: 0px;
 }
