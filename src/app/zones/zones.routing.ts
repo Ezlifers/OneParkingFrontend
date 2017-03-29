@@ -1,4 +1,4 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { ZonesComponent } from './zones.component';
 import { ZoneListComponent } from './zone-list/zone-list.component';

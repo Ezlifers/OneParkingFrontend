@@ -7,6 +7,7 @@ import { DashboardComponent } from './+core/dashboard/dashboard.component';
 
 import { zoneRoutes } from './zones/zones.routing';
 import { auxRoutes } from './auxs/auxs.routing';
+import { supervisorRoutes } from './supervisors/supervisors.routing';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -15,6 +16,7 @@ const appRoutes: Routes = [
         path: 'dashboard', component: DashboardComponent, children: [
             ...zoneRoutes,
             ...auxRoutes,
+            ...supervisorRoutes,
             { path: '', redirectTo: 'zonas', pathMatch: 'full' }
         ]
     },

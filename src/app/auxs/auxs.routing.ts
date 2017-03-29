@@ -1,4 +1,4 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { AuxsComponent } from './auxs.component';
 import { AuxListComponent } from './aux-list/aux-list.component';
