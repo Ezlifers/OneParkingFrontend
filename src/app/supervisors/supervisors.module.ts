@@ -5,13 +5,13 @@ import { SupervisorService, SupervisorSelectedService } from './+shared/_index';
 import { SupervisorListComponent } from './supervisor-list/supervisor-list.component';
 import { SupervisorAddComponent } from './supervisor-add/supervisor-add.component';
 
-/*import { SupervisorActivitiesComponent } from './supervisor-detail/activities/supervisor-activities.component';
+import { SupervisorActivitiesComponent } from './supervisor-detail/activities/supervisor-activities.component';
 import { SupervisorAssignComponent } from './supervisor-detail/assign/supervisor-assign.component';
 import { SupervisorEditComponent } from './supervisor-detail/edit/supervisor-edit.component';
 import { SupervisorSpecComponent } from './supervisor-detail/spec/supervisor-spec.component';
-import { SupervisorAuxsComponent } from './supervisor-detail/zones/supervisor-auxs.component';
+import { SupervisorAuxsComponent } from './supervisor-detail/auxs/supervisor-auxs.component';
 import { SupervisorDescriptionComponent } from './supervisor-detail/supervisor-description.component';
-import { SupervisorDetailComponent } from './supervisor-detail/supervisor-detail.component';*/
+import { SupervisorDetailComponent } from './supervisor-detail/supervisor-detail.component';
 
 import { SupervisorsComponent } from './supervisors.component';
 
@@ -19,13 +19,13 @@ import { SupervisorsComponent } from './supervisors.component';
     declarations: [
         SupervisorListComponent,
         SupervisorAddComponent,
-        // SupervisorActivitiesComponent,
-        // SupervisorAssignComponent,
-        // SupervisorEditComponent,
-        // SupervisorSpecComponent,
-        // SupervisorAuxsComponent,
-        // SupervisorDescriptionComponent,
-        // SupervisorDetailComponent,
+        SupervisorActivitiesComponent,
+        SupervisorAssignComponent,
+        SupervisorEditComponent,
+        SupervisorSpecComponent,
+        SupervisorAuxsComponent,
+        SupervisorDescriptionComponent,
+        SupervisorDetailComponent,
         SupervisorsComponent
     ],
     imports: [
