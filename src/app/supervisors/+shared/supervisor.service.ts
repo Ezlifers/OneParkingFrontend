@@ -37,8 +37,7 @@ export class SupervisorService extends HttpClientService {
     }
 
     public addAux(id: string, aux: AuxSupervisor): Observable<boolean> {
-        const body = [aux];
-        return this.post(`${this.urlSupervisor}/${id}/auxiliares`, body, true).map(this.process).catch(this.handleError);
+        return this.post(`${this.urlSupervisor}/${id}/auxiliares`, aux, true).map(this.process).catch(this.handleError);
     }
 
     public getAuxs(id: string): Observable<AuxSupervisor[]> {
