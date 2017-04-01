@@ -44,11 +44,11 @@
             <div class="input-field col s12 m6">
                 <input name="pass" type="text" [(ngModel)]="tempPass" [class.invalid]="!pass.valid && !pass.pristine" class="validate" #pass="ngModel"
                     required>
-                <label for="pass">Contraseña Temporal</label>
+                <label for="pass">Nueva Contraseña</label>
             </div>
         </div>
         <div class="row" *ngIf="!loadingPass">
-            <button (click)="resetPass()" class="btn waves-effect waves-light btn blue col s5 m4 l3" type="submit" [disabled]="!passForm.valid">Reiniciar Password</button>
+            <button (click)="resetPass()" class="btn waves-effect waves-light btn blue col s5 m4 l3" type="submit" [disabled]="!passForm.valid">Cambiar Password</button>
         </div>
         <app-loader [size]="small" [center]="true" [show]="loadingPass"></app-loader>        
     </form>
