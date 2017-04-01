@@ -24,15 +24,15 @@ export class ProfileEditComponent implements OnInit {
     image: File = null;
     reader: FileReader;
 
-    constructor(private service: ProfileService, private sesion: SessionService) {
+    constructor(private service: ProfileService, private session: SessionService) {
         this.reader = new FileReader();
         this.reader.onload = this.loadedImg(this);
     }
 
     ngOnInit() {
-        this.name = this.sesion.user.nombre;
-        this.document = this.sesion.user.cedula;
-        this.celNumber = this.sesion.user.celular;
+        this.name = this.session.user.nombre;
+        this.document = this.session.user.cedula;
+        this.celNumber = this.session.user.celular;
 
         this.image = null;
         this.newPass = '';
@@ -47,7 +47,7 @@ export class ProfileEditComponent implements OnInit {
         if (this.image) {
             this.reader.readAsDataURL(this.image);
         } else {
-            this.service.updateUser(this.sesion.id, this.name, this.document, this.celNumber, null, null)
+            this.service.updateUser(this.session.id, this.name, this.document, this.celNumber, null, null)
                 .subscribe(
                 res => this.edited(res[0], res[1], res[2]),
                 error => this.edited(false, false, null)
@@ -59,15 +59,16 @@ export class ProfileEditComponent implements OnInit {
         return function (e: any) {
             const image: string = e.target.result;
             const base: string[] = image.split(',');
-            const imgName: string = profileEdit.sesion.user.imagen.split('/')[3];
+            const imgPath: string[] = profileEdit.session.user.imagen.split('/');
+            const imgName: string = imgPath[imgPath.length - 1];
 
-            profileEdit.service.updateUser(this.sesion.id,
+            profileEdit.service.updateUser(profileEdit.session.id,
                 profileEdit.name, profileEdit.document, profileEdit.celNumber, base[1], imgName
             ).subscribe(
                 res => profileEdit.edited(res[0], res[1], res[2]),
                 error => profileEdit.edited(false, false, null)
                 );
-        }
+        };
     }
 
     edited(success: boolean, failImg: boolean, urlImage: string) {
@@ -78,11 +79,11 @@ export class ProfileEditComponent implements OnInit {
             return;
         }
 
-        this.sesion.user.nombre = this.name;
-        this.sesion.user.cedula = this.document;
-        this.sesion.user.celular = this.celNumber;
+        this.session.user.nombre = this.name;
+        this.session.user.cedula = this.document;
+        this.session.user.celular = this.celNumber;
         if (urlImage) {
-            this.sesion.user.imagen = urlImage;
+            this.session.user.imagen = urlImage;
         }
         Materialize.toast('Usuario actualizado', 4000);
         this.finish.emit(null);
@@ -90,7 +91,7 @@ export class ProfileEditComponent implements OnInit {
 
     resetPass() {
         this.loadingPass = true;
-        this.service.updatePass(this.sesion.id, this.newPass)
+        this.service.updatePass(this.session.id, this.newPass)
             .subscribe(
             res => this.resetedPass(res),
             error => this.resetedPass(false)

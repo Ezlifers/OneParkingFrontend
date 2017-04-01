@@ -19,7 +19,7 @@ export class ProfileService extends HttpClientService {
         if (img) {
             body.imagen = img;
             body.imgMod = true;
-            body.imgNombre = imgName;
+            body.imgName = imgName;
         }
         return this.put(`${this.url}/${id}`, body, true).map(this.processUpdate).catch(this.handleError);
     }

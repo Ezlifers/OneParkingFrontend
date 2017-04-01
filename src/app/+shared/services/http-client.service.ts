@@ -32,8 +32,7 @@ export abstract class HttpClientService {
     }
 
     private makeToken(): string {
-        const token = this.session.token + '_&&_' + Date.now();
-        return btoa(token);
+        return this.session.token + '_&&_' + Date.now();
     }
 
     private makeRequestData(url: string, body: any, auth: boolean): [string, string, RequestOptions] {

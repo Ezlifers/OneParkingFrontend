@@ -58,7 +58,8 @@ export class AuxEditComponent implements OnInit {
         return function (e: any) {
             const image: string = e.target.result;
             const base: string[] = image.split(',');
-            const imgName: string = auxEdit.selected.aux.imagen.split('/')[3];
+            const imgPath: string[] = auxEdit.selected.aux.imagen.split('/');
+            const imgName: string = imgPath[imgPath.length - 1];
 
             auxEdit.service.updateAux(auxEdit.selected.aux._id
                 , auxEdit.name, auxEdit.document, auxEdit.celNumber, auxEdit.device, base[1], imgName

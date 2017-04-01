@@ -56,7 +56,8 @@ export class SupervisorEditComponent implements OnInit {
         return function (e: any) {
             const image: string = e.target.result;
             const base: string[] = image.split(',');
-            const imgName: string = auxEdit.selected.supervisor.imagen.split('/')[3];
+            const imgPath: string[] = auxEdit.selected.supervisor.imagen.split('/');
+            const imgName: string = imgPath[imgPath.length - 1];
 
             auxEdit.service.updateSupervisor(auxEdit.selected.supervisor._id
                 , auxEdit.name, auxEdit.document, auxEdit.celNumber,  base[1], imgName

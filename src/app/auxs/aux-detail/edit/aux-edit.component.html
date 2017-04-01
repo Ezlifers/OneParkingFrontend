@@ -1,6 +1,6 @@
 <div class="section">
     <b>Basico</b>
-    <form #Form="ngForm">
+    <form #form="ngForm">
         <div class="row">
             <div class="input-field col s12 m6">
                 <input name="ced" type="number" [(ngModel)]="document" [class.invalid]="!ced.valid && !ced.pristine" class="validate" #ced="ngModel"
