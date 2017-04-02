@@ -36,6 +36,10 @@ export class SupervisorService extends HttpClientService {
         return this.get(`${this.url}?q={"tipo":"Supervisor","activo":${active}}`, true).map(this.processList).catch(this.handleError);
     }
 
+    public deleteSupervisor(id: string): Observable<boolean> {
+        return this.delete(`${this.urlSupervisor}/${id}`, true).map(this.process).catch(this.handleError);
+    }
+
     public addAux(id: string, aux: AuxSupervisor): Observable<boolean> {
         return this.post(`${this.urlSupervisor}/${id}/auxiliares`, aux, true).map(this.process).catch(this.handleError);
     }

@@ -7,7 +7,7 @@
     </div>
 </nav>
 <div class="card-panel row">
-    <h4 class="detail-title">{{selected.supervisor.nombre}} <i class="material-icons right grey-text">delete</i></h4>
+    <h4 class="detail-title">{{selected.supervisor.nombre}} <i class="material-icons right grey-text" (click)="deleteDialog()">delete</i></h4>
     <div class="col s12 m12 l10">
         <ul class="tabs main">
             <li class="tab">
@@ -40,5 +40,16 @@
     </div>
     <div id="activity" class="col s12">
         <app-supervisor-activities></app-supervisor-activities>
+    </div>
+</div>
+
+<div id="deleteDialog" class="modal">
+    <div class="modal-content">
+        <h5>Eliminar Supervisor</h5>
+        <p class="mb">¿ Desea eliminar el supervisor ?</p>
+        <div class="modal-footer">
+            <a (click)="deleteSupervisor()" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
+            <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+        </div>
     </div>
 </div>

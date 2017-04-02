@@ -18,11 +18,11 @@ export class AuxDetailComponent implements OnInit {
         , private service: AuxService) { }
 
     ngOnInit() {
+        $('.modal').modal();
         setTimeout(() => $('ul.tabs').tabs(), 40);
     }
 
     deleteDialog() {
-        $('.modal').modal();
         $('#deleteDialog').modal('open');
     }
 
