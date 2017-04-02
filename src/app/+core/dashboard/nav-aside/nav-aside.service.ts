@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class NavAsideService {
 
-    menu: IMenu[] = [
+    menuAdmin: IMenu[] = [
+         { label: 'Movimientos', icon: 'attach_money', path: 'movimientos' },
+        { label: 'Incidencias', icon: 'warning', path: 'incidencias' },
         { label: 'Zonas', icon: 'room', path: 'zonas' },
         { label: 'Auxiliares', icon: 'person_pin', path: 'auxiliares' },
         { label: 'Supervisores', icon: 'supervisor_account', path: 'supervisores' },
-        { label: 'Incidencias', icon: 'warning', path: 'incidencias' },
-        { label: 'Estadisticas', icon: 'trending_up', path: 'estadisticas' },
         { label: 'Configuración', icon: 'settings', path: 'configuracion' }
     ];
 

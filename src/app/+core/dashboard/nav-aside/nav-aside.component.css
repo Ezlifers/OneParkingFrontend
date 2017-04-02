@@ -36,7 +36,8 @@
 }
 
 .collection.nav-less li.collection-header{
-  border-bottom: 1px solid #2b2b2b;
+  border-bottom: 1px solid transparent;
+  color: #999;  
 }
 
 .collection.nav-less a.collection-item:not(.active):hover {
