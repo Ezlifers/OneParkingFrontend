@@ -71,6 +71,10 @@ export class ZoneService extends HttpClientService {
         return this.put(`${this.url}/${id}/horario`, body, true).map(this.process).catch(this.handleError);
     }
 
+    public deleteZone(id:string):Observable<boolean>{
+        return this.delete(`${this.url}/${id}`, true).map(this.process).catch(this.handleError);
+    }
+
     public removeAllAux(id: string): Observable<boolean> {
         return this.delete(`${this.url}/${id}/auxiliares`, true).map(this.process).catch(this.handleError);
     }

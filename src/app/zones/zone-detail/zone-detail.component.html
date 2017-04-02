@@ -10,7 +10,7 @@
 
 
 <div *ngIf="zone" class="card-panel row">
-    <h4 class="detail-title">{{zone.nombre}} <i class="material-icons right grey-text">delete</i></h4>
+    <h4 class="detail-title">{{zone.nombre}} <i class="material-icons right grey-text" (click)="deleteDialog()">delete</i></h4>
     <div class="col s12 m12 l10">
         <ul class="tabs main">
             <li class="tab">
@@ -45,5 +45,16 @@
     </div>
     <div id="aux" class="col s12">
         <app-zone-auxs [zone]="zone"></app-zone-auxs>
+    </div>
+</div>
+
+<div id="deleteDialog" class="modal">
+    <div class="modal-content">
+        <h5>Eliminar Zona</h5>
+        <p class="mb">Al eliminar la zona se desvincularán los auxiliares, ¿ Desea continuar ?</p>
+        <div class="modal-footer">
+            <a (click)="deleteZone()" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
+            <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+        </div>
     </div>
 </div>

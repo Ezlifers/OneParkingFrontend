@@ -23,6 +23,7 @@ export class ZoneDetailComponent implements OnInit {
     constructor(private router: Router, private service: ZoneService, private route: ActivatedRoute, private nav: NavigationService) { }
 
     ngOnInit() {
+        $('.modal').modal();
         const id = this.route.snapshot.params['id'];
         this.nav.loading = true;
         this.service.getZone(id).subscribe(data => this.initData(data, false), error => this.initData(null, true));
@@ -36,6 +37,23 @@ export class ZoneDetailComponent implements OnInit {
         }
         this.zone = data;
         setTimeout(() => $('ul.tabs').tabs(), 40);
+    }
+
+    deleteDialog() {
+        $('#deleteDialog').modal('open');
+    }
+
+    deleteZone() {
+        this.service.deleteZone(this.zone._id).subscribe(res => this.deleted(res), err => this.deleted(false));
+    }
+
+    deleted(success: boolean) {
+        if (!success) {
+            Materialize.toast('Error al eliminar la Zona', 4000);
+            return;
+        }
+        Materialize.toast('Zona eliminada', 4000);
+        this.router.navigate(['../'], { relativeTo: this.route });
     }
 
 }
