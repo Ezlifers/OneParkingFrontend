@@ -12,10 +12,31 @@ export class AuxDetailComponent implements OnInit {
 
     desEditing = false;
 
-    constructor(private selected: AuxSelectedService) { }
+    constructor(private router: Router
+        , private route: ActivatedRoute
+        , private selected: AuxSelectedService
+        , private service: AuxService) { }
 
     ngOnInit() {
         setTimeout(() => $('ul.tabs').tabs(), 40);
+    }
+
+    deleteDialog() {
+        $('.modal').modal();
+        $('#deleteDialog').modal('open');
+    }
+
+    deleteAux() {
+        this.service.deleteAux(this.selected.aux._id).subscribe(res => this.deleted(res), err => this.deleted(false));
+    }
+
+    deleted(success: boolean) {
+        if (!success) {
+            Materialize.toast('Error al eliminar el Auxiliar', 4000);
+            return;
+        }
+        Materialize.toast('Auxiliar eliminado', 4000);
+        this.router.navigate(['../'], { relativeTo: this.route });
     }
 
 }

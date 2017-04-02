@@ -47,6 +47,11 @@ export class AuxService extends HttpClientService {
         return this.put(`${this.urlUsers}/${id}`, body, true).map(this.processEdit).catch(this.handleError);
     }
 
+    public deleteAux(id: string): Observable<boolean> {
+        return this.delete(`${this.urlAux}/${id}`,true).map(this.process).catch(this.handleError);
+    }
+
+
     private processEdit(res: Response) {
         const body = res.json();
         if (body.success) {
