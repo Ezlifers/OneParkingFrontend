@@ -1,0 +1,27 @@
+<div class="section">
+    <h4 class="detail-title">Horarios y Tarifas</h4>
+    <div class="section">
+        <div *ngFor="let tu of times">
+            <b class="blue-text">{{tu.tipo}}</b>
+            <table *ngIf="tu.horarios.length > 0; else noTimes">
+                <thead>
+                    <tr>
+                        <th data-field="horario">Horario</th>
+                        <th data-field="tarifa">Tarifa (Tiempo Minimo)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let t of tu.horarios">
+                        <td>{{t.ti|timeMinute}} a {{t.tf|timeMinute}}</td>
+                        <td *ngIf="t.d && !t.dp">{{t.p}}</td>
+                        <td *ngIf="t.d && t.dp">{{price}}</td>
+                        <td *ngIf="!t.d">No disponible</td>
+                    </tr>
+                </tbody>
+            </table>
+            <ng-template #noTimes>
+                <p>No especificado</p>
+            </ng-template>
+        </div>
+    </div>
+</div>

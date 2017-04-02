@@ -10,6 +10,7 @@ import { auxRoutes } from './auxs/auxs.routing';
 import { supervisorRoutes } from './supervisors/supervisors.routing';
 import { incidentRoutes } from './incidents/incidents.routing';
 import { profileRoutes } from './profile/profile.routing';
+import { configRoutes } from './config/config.routing';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -21,6 +22,7 @@ const appRoutes: Routes = [
             ...supervisorRoutes,
             ...incidentRoutes,
             ...profileRoutes,
+            ...configRoutes,
             { path: '', redirectTo: 'zonas', pathMatch: 'full' }
         ]
     },

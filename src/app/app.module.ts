@@ -9,7 +9,9 @@ import { ZonesModule } from './zones/zones.module';
 import { AuxsModule } from './auxs/auxs.module';
 import { SupervisorsModule } from './supervisors/supervisors.module';
 import { IncidentsModule } from './incidents/incidents.module';
+import { ConfigModule } from './config/config.module';
 import { ProfileModule } from './profile/profile.module';
+
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -30,6 +32,7 @@ import { AppComponent } from './app.component';
     SupervisorsModule,
     IncidentsModule,
     ProfileModule,
+    ConfigModule,
     AppRoutingModule
   ],
   providers: [],
