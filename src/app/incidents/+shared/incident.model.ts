@@ -1,4 +1,4 @@
-export class Zone {
+export class ZoneIncident {
     id: string;
     codigo: number;
     bahia: number;
@@ -6,7 +6,7 @@ export class Zone {
 
 }
 
-export class User {
+export class UserIncident {
     id: string;
     nombre: string;
     celular: string;
@@ -19,8 +19,8 @@ export class Incident {
     foto: string;
     observaciones: string;
     placa: string;
-    zona: Zone;
-    usuario: User;
+    zona: ZoneIncident;
+    usuario: UserIncident;
     atendida: boolean;
     fechaAtencion: Date;
 }

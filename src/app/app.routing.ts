@@ -8,6 +8,7 @@ import { DashboardComponent } from './+core/dashboard/dashboard.component';
 import { zoneRoutes } from './zones/zones.routing';
 import { auxRoutes } from './auxs/auxs.routing';
 import { supervisorRoutes } from './supervisors/supervisors.routing';
+import { incidentRoutes } from './incidents/incidents.routing';
 import { profileRoutes } from './profile/profile.routing';
 
 const appRoutes: Routes = [
@@ -18,6 +19,7 @@ const appRoutes: Routes = [
             ...zoneRoutes,
             ...auxRoutes,
             ...supervisorRoutes,
+            ...incidentRoutes,
             ...profileRoutes,
             { path: '', redirectTo: 'zonas', pathMatch: 'full' }
         ]

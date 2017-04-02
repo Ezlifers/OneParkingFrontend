@@ -8,6 +8,7 @@ import { CoreModule } from './+core/core.module';
 import { ZonesModule } from './zones/zones.module';
 import { AuxsModule } from './auxs/auxs.module';
 import { SupervisorsModule } from './supervisors/supervisors.module';
+import { IncidentsModule } from './incidents/incidents.module';
 import { ProfileModule } from './profile/profile.module';
 
 import 'rxjs/add/operator/catch';
@@ -27,6 +28,7 @@ import { AppComponent } from './app.component';
     ZonesModule,
     AuxsModule,
     SupervisorsModule,
+    IncidentsModule,
     ProfileModule,
     AppRoutingModule
   ],
