@@ -79,8 +79,9 @@ export class SupervisorService extends HttpClientService {
 
     public searchAuxs(q: string): Observable<Aux[]> {
         let queryText: string;
+        let query;
         if (q) {
-            const query = {
+            query = {
                 tipo: 'Auxiliar'
                 , activo: true
                 , $or: [
@@ -89,8 +90,13 @@ export class SupervisorService extends HttpClientService {
                     , { celular: { $regex: q, $options: 'i' } }
                 ]
             };
-            queryText = `q=${JSON.stringify(query)}&`;
+        } else {
+            query = {
+                tipo: 'Auxiliar'
+                , activo: true
+            };
         }
+        queryText = `q=${JSON.stringify(query)}&`;
         return this.get(`${this.url}?${queryText}o={"nombre":1}&projection:{zonas:0}`, true).map(this.processList).catch(this.handleError);
     }
 

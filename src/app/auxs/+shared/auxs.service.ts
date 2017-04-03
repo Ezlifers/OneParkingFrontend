@@ -38,13 +38,13 @@ export class AuxService extends HttpClientService {
 
     public updateAux(id: string, name: string, cc: string, cel: string, dev: string
         , img: string, imgName: string): Observable<[boolean, boolean, string]> {
-        const body: any = { nombre: name, cedula: cc, celular: cel, dispositivo: dev, imagen: '', imgMod: false, imgName: '' };
+        const body: any = { nombre: name, cedula: cc, celular: cel, dispositivo: dev, imgMod: false };
         if (img) {
             body.imagen = img;
             body.imgMod = true;
             body.imgName = imgName;
         }
-        return this.put(`${this.urlUsers}/${id}`, body, true).map(this.processEdit).catch(this.handleError);
+        return this.put(`${this.urlAux}/${id}`, body, true).map(this.processEdit).catch(this.handleError);
     }
 
     public deleteAux(id: string): Observable<boolean> {

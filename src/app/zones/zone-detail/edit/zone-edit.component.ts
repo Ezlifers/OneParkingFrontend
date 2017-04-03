@@ -57,14 +57,7 @@ export class ZoneEditComponent implements OnInit {
 
     edit() {
         this.loading = true;
-        const body = {
-            nombre: this.name
-            , codigo: this.cod
-            , direccion: this.dir
-            , lat: this.lat
-            , lon: this.lon
-        };
-        this.service.update(this.zone._id, body).subscribe(
+        this.service.update(this.zone._id, this.name, this.cod, this.dir, this.lat, this.lon).subscribe(
             res => this.edited(res),
             err => this.edited(false)
         );

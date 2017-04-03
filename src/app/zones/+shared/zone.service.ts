@@ -44,8 +44,9 @@ export class ZoneService extends HttpClientService {
         return this.get(`${this.url}/${id}/auxiliares`, true).map(this.processList).catch(this.handleError);
     }
 
-    public update(id: string, zone: any): Observable<boolean> {
-        return this.put(`${this.url}/${id}`, zone, true).map(this.process).catch(this.handleError);
+    public update(id: string, nombre: string, codigo: number, direccion: string, lat: number, lon: number): Observable<boolean> {
+        const body = { nombre: nombre, codigo: codigo, direccion: direccion, lat: lat, lon: lon };
+        return this.put(`${this.url}/${id}`, body, true).map(this.process).catch(this.handleError);
     }
 
     public updateBays(id: string, n: number): Observable<boolean> {
@@ -71,7 +72,7 @@ export class ZoneService extends HttpClientService {
         return this.put(`${this.url}/${id}/horario`, body, true).map(this.process).catch(this.handleError);
     }
 
-    public deleteZone(id:string):Observable<boolean>{
+    public deleteZone(id: string): Observable<boolean> {
         return this.delete(`${this.url}/${id}`, true).map(this.process).catch(this.handleError);
     }
 
