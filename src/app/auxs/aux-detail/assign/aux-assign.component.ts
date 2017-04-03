@@ -56,11 +56,7 @@ export class AuxAssignComponent implements OnInit {
     }
 
     assignDialog(zone: Zone, day: number, shedule: number) {
-        if (day === 0) {
-            this.days = [true, true, true, true, true];
-            this.day = 5;
-            setTimeout(() => this.day = 0, 20);
-        }
+        this.days = [true, true, true, true, true];
         this.day = day;
         this.shedule = shedule;
         this.zone = zone;
@@ -72,10 +68,6 @@ export class AuxAssignComponent implements OnInit {
             case 2: this.timeMsg = 'en el dia domingo'; break;
         }
         $('#assignModal').modal('open');
-    }
-
-    setDay(checked: boolean, day: number) {
-        this.days[day] = checked;
     }
 
     assign() {
@@ -102,9 +94,43 @@ export class AuxAssignComponent implements OnInit {
 
         };
 
-        this.service.addZone(this.selected.aux._id, this.zoneA).subscribe(
-            res => this.assigned(res), err => this.assigned(false)
-        );
+        const zones = this.selected.aux.zonas;
+        let match = false;
+        for (const z of zones) {
+            if (z.id === this.zoneA.id) {
+                const schedules = z.horarios;
+                const sA = this.zoneA.horarios[0];
+                for (const s of schedules) {
+                    if (sA.ti === s.ti) {
+                        for (const d of s.dias) {
+                            for (const dA of sA.dias) {
+                                if (d === dA) {
+                                    match = true;
+                                    break;
+                                }
+                            }
+                            if (match) {
+                                break;
+                            }
+                        }
+                    }
+                    if (match) {
+                        break;
+                    }
+                }
+            }
+            if (match) {
+                break;
+            }
+        }
+
+        if (match) {
+            Materialize.toast('Horario ya asignado o presenta un conflicto', 4000);
+        } else {
+            this.service.addZone(this.selected.aux._id, this.zoneA).subscribe(
+                res => this.assigned(res), err => this.assigned(false)
+            );
+        }
     }
 
     getDays() {

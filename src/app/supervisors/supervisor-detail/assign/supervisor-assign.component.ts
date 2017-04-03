@@ -55,15 +55,29 @@ export class SupervisorAssignComponent implements OnInit {
     }
 
     assign() {
-        this.auxA = { id: this.aux._id, nombre: this.aux.nombre, celular: this.aux.celular, imagen: this.aux.imagen };
-        this.service.addAux(this.selected.supervisor._id, this.auxA).subscribe(
-            res => this.assigned(res), err => this.assigned(false)
-        );
+
+        const auxs = this.selected.supervisor.auxiliares;
+        let match = false;
+        for (let a of auxs) {
+            if (a.id === this.aux._id) {
+                match = true;
+                break;
+            }
+        }
+
+        if (match) {
+            Materialize.toast('El auxiliar ya se encuentra asignado', 4000);
+        } else {
+            this.auxA = { id: this.aux._id, nombre: this.aux.nombre, celular: this.aux.celular, imagen: this.aux.imagen };
+            this.service.addAux(this.selected.supervisor._id, this.auxA).subscribe(
+                res => this.assigned(res), err => this.assigned(false)
+            );
+        }
     }
 
     assigned(success: boolean) {
         if (!success) {
-            Materialize.toast('Error al asignar auxiliar a supervisor', 4000)
+            Materialize.toast('Error al asignar auxiliar a supervisor', 4000);
         }
         this.selected.supervisor.auxiliares.push(this.auxA);
         Materialize.toast('Asignación exitosa', 4000);
