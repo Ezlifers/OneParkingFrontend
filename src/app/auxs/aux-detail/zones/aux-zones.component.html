@@ -6,17 +6,16 @@
     </h5>
 
     <div class="section">
-        <ul class="collection" *ngIf="selected.aux.zonas.length > 0; else noZones">
-            <li class="collection-item" *ngFor="let z of selected.aux.zonas; index as i">
-                <app-aux-zone [zone]="z" [index]="i"></app-aux-zone>
-            </li>
-        </ul>
-
-        <ng-template #noZones>
-            <p class="mt mb">
-                No se han asignado zonas.
-            </p>
-        </ng-template>
-
+        <div *ngFor="let z of selected.aux.zonas; index as i">
+            <div><b>{{z.codigo|zero}} - {{z.nombre}}</b></div>
+            <ul class="collection">
+                <li class="collection-item" *ngFor="let s of z.horarios; index as j">
+                    <app-aux-zone [zone]="z" [zIndex]="i" [schedule]="s" [sIndex]="j"></app-aux-zone>
+                </li>
+            </ul>
+        </div>
+        <p class="mt mb" *ngIf="selected.aux.zonas.length == 0;">
+            No se han asignado zonas.
+        </p>
     </div>
 </div>

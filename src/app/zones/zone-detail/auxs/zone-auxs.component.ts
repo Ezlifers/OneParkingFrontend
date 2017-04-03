@@ -1,13 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Zone, ZoneService } from '../../+shared/_index';
-import { Aux } from '../../../auxs/+shared/_index';
+import { Aux, AuxService } from '../../../auxs/+shared/_index';
 
 declare var Materialize: any;
 declare var $: any;
 
 @Component({
     selector: 'app-zone-auxs',
-    templateUrl: './zone-auxs.component.html'
+    templateUrl: './zone-auxs.component.html',
+    providers: [AuxService]
 })
 export class ZoneAuxsComponent implements OnInit {
 
@@ -40,6 +41,10 @@ export class ZoneAuxsComponent implements OnInit {
         this.auxs = [];
         Materialize.toast('Asiganaciones de auxiliares removidas', 4000);
 
+    }
+
+    deletedAux(index: number) {
+        this.auxs.splice(index, 1);
     }
 
 

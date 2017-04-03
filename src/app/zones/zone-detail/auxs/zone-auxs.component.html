@@ -15,9 +15,9 @@
         </div>
         <div class="section">
             <ul class="collection">
-                <div *ngFor="let z of a.zonas; index as j">
-                    <li class="collection-item" *ngIf="z.id == zone._id">
-                        <app-zone-aux [zone]="z" [aux]="a" [index]="j"></app-zone-aux>
+                <div *ngFor="let s of a.zonas[0].horarios; index as j">
+                    <li class="collection-item">
+                        <app-zone-aux [aIndex]="i" [zone]="a.zonas[0]" [aux]="a" [schedule]="s" [index]="j" (auxDeleted)="deletedAux($event)"></app-zone-aux>
                     </li>
                 </div>
 

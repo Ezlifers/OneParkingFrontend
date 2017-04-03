@@ -120,15 +120,17 @@ export class AuxAssignComponent implements OnInit {
             Materialize.toast('Error al asignar horario a auxiliar', 4000);
             return;
         }
-        const zoneLength = this.selected.aux.zonas.length - 1;
-        let zoneIndex = 0;
+
+        let zoneIndex = -1;
+        let zoneMatch = false;
         for (const zone of this.selected.aux.zonas) {
+            zoneIndex++;
             if (this.zoneA.id === zone.id) {
+                zoneMatch = true;
                 break;
             }
-            zoneIndex++;
         }
-        if (zoneIndex === zoneLength) {
+        if (!zoneMatch) {
             this.selected.aux.zonas.push(this.zoneA);
         } else {
             this.selected.aux.zonas[zoneIndex].horarios.push(this.zoneA.horarios[0]);

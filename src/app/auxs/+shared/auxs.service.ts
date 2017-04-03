@@ -69,8 +69,13 @@ export class AuxService extends HttpClientService {
         return this.get(`${this.urlAux}/${id}/zonas`, true).map(this.processList).catch(this.handleError);
     }
 
-    public removeZone(id: string, idZone: string, schedule: ScheduleAux): Observable<boolean> {
+    public removeSchedule(id: string, idZone: string, schedule: ScheduleAux): Observable<boolean> {
         const body = { dias: schedule.dias, id: idZone, ti: schedule.ti, tf: schedule.tf };
+        return this.put(`${this.urlAux}/${id}/horarios`, body, true).map(this.process).catch(this.handleError);
+    }
+
+    public removeZone(id: string, idZone: string): Observable<boolean> {
+        const body = { id: idZone };
         return this.put(`${this.urlAux}/${id}/zonas`, body, true).map(this.process).catch(this.handleError);
     }
 
