@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Http, Response } from '@angular/http';
 import { SessionService } from '../../+core/_index';
 import { HttpClientService } from '../../+shared/_index';
-import { ZoneAux, Aux } from './auxs.model';
+import { ZoneAux, Aux, ScheduleAux } from './auxs.model';
 import { Zone } from '../../zones/+shared/_index';
 
 @Injectable()
@@ -69,8 +69,8 @@ export class AuxService extends HttpClientService {
         return this.get(`${this.urlAux}/${id}/zonas`, true).map(this.processList).catch(this.handleError);
     }
 
-    public removeZone(id: string, zone: ZoneAux): Observable<boolean> {
-        const body = { dias: zone.dias, id: zone.id, ti: zone.ti, tf: zone.tf };
+    public removeZone(id: string, idZone: string, schedule: ScheduleAux): Observable<boolean> {
+        const body = { dias: schedule.dias, id: idZone, ti: schedule.ti, tf: schedule.tf };
         return this.put(`${this.urlAux}/${id}/zonas`, body, true).map(this.process).catch(this.handleError);
     }
 

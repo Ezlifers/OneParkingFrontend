@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuxService, AuxSelectedService, ZoneAux } from '../../+shared/_index';
+import { AuxService, AuxSelectedService, ZoneAux, ScheduleAux } from '../../+shared/_index';
 import { Zone } from '../../../zones/+shared/_index';
 
 declare var $: any;
@@ -91,10 +91,15 @@ export class AuxAssignComponent implements OnInit {
             nombre: this.zone.nombre,
             direccion: this.zone.direccion,
             codigo: this.zone.codigo,
-            d: times.d,
-            ti: times.ti,
-            tf: times.tf,
-            dias: daysAux
+            horarios: [
+                {
+                    d: times.d,
+                    ti: times.ti,
+                    tf: times.tf,
+                    dias: daysAux
+                }
+            ]
+
         };
 
         this.service.addZone(this.selected.aux._id, this.zoneA).subscribe(
@@ -115,7 +120,19 @@ export class AuxAssignComponent implements OnInit {
             Materialize.toast('Error al asignar horario a auxiliar', 4000);
             return;
         }
-        this.selected.aux.zonas.push(this.zoneA);
+        const zoneLength = this.selected.aux.zonas.length - 1;
+        let zoneIndex = 0;
+        for (const zone of this.selected.aux.zonas) {
+            if (this.zoneA.id === zone.id) {
+                break;
+            }
+            zoneIndex++;
+        }
+        if (zoneIndex === zoneLength) {
+            this.selected.aux.zonas.push(this.zoneA);
+        } else {
+            this.selected.aux.zonas[zoneIndex].horarios.push(this.zoneA.horarios[0]);
+        }
         Materialize.toast('Asignación exitosa', 4000);
     }
 
