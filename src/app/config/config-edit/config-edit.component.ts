@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Config, ConfigService } from '../+shared/_index';
 
 declare var Materialize: any;
+declare var $: any;
 
 @Component({
     selector: 'app-config-edit',
@@ -14,10 +15,12 @@ export class ConfigEditComponent implements OnInit {
 
     loading: boolean;
     newConfig: Config;
+    scheduleDeleted: boolean;
 
     constructor(private service: ConfigService) { }
 
     ngOnInit() {
+        $('.modal').modal();
         this.newConfig = {
             tiempoMin: this.config.tiempoMin / 60,
             tiempoMax: this.config.tiempoMax / 60,
@@ -28,13 +31,38 @@ export class ConfigEditComponent implements OnInit {
         };
     }
 
+    scheduleDelete(deleted: boolean) {
+        this.scheduleDeleted = deleted;
+    }
+
     edit() {
+        if (this.scheduleDeleted) {
+            $('#changeAllSchedule').modal('open');
+        } else {
+            this.loading = true;
+            this.service.editConfig(this.newConfig)
+                .subscribe(
+                res => this.edited(res),
+                error => this.edited(false)
+                );
+        }
+    }
+
+    deleteAuxs() {
         this.loading = true;
-        this.service.editConfig(this.newConfig)
-            .subscribe(
-            res => this.edited(res),
-            error => this.edited(false)
-            );
+        this.service.resetAuxs().subscribe(resAuxs => {
+            if (resAuxs) {
+                this.service.editConfig(this.newConfig)
+                    .subscribe(
+                    res => this.edited(res),
+                    error => this.edited(false)
+                    );
+            } else {
+                Materialize.toast('Error al editar las configuraciones', 4000);
+            }
+        }, err => {
+            Materialize.toast('Error al editar las configuraciones', 4000);
+        });
     }
 
     edited(success: boolean) {
@@ -52,4 +80,6 @@ export class ConfigEditComponent implements OnInit {
         Materialize.toast('Configuraciones actualizadas', 4000);
         this.finish.emit(null);
     }
+
+
 }

@@ -13,14 +13,13 @@ declare var $: any;
 export class ZoneAuxsComponent implements OnInit {
 
     @Input() zone: Zone;
-    auxs: Aux[];
 
     constructor(private service: ZoneService) { }
 
     ngOnInit() {
         $('.modal').modal();
         this.service.getAuxs(this.zone._id)
-            .subscribe(res => this.auxs = res, err => Materialize.toast('Error al recuperar los auxiliares', 4000));
+            .subscribe(res => this.service.auxs = res, err => Materialize.toast('Error al recuperar los auxiliares', 4000));
     }
 
     removeDialog() {
@@ -38,13 +37,13 @@ export class ZoneAuxsComponent implements OnInit {
             Materialize.toast('Error al eliminar las asignaciones de auxiliares', 4000);
             return;
         }
-        this.auxs = [];
+        this.service.auxs = [];
         Materialize.toast('Asiganaciones de auxiliares removidas', 4000);
 
     }
 
     deletedAux(index: number) {
-        this.auxs.splice(index, 1);
+        this.service.auxs.splice(index, 1);
     }
 
 

@@ -84,53 +84,73 @@
     </div>
   </div>
 
-
-  <div id="addDialog" class="modal">
-    <form #addForm="ngForm">
-      <div class="modal-content">
-        <h5>Agregar Horario</h5>
-        <h6>{{titleDialog}}</h6>
-        <div class="row mt">
-          <p>
-            <input name="dis" type="checkbox" #dis id="dis" [(ngModel)]="addDis" />
-            <label for="dis">Disponible para parquear</label>
-          </p>
-          <div class="input-field col s12 m6" *ngIf="addDis">
-            <input name="desde" type="time" class="validate" [(ngModel)]="addTi" #ti required>
-            <label class="active" for="ti">Desde</label>
-          </div>
-          <div class="input-field col s12 m6" *ngIf="addDis">
-            <input name="hasta" type="time" class="validate" [(ngModel)]="addTf" #tf required>
-            <label class="active" for="tf">Hasta</label>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a *ngIf="!addDis || addForm.valid" (click)="addTime()" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
-        <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-      </div>
-    </form>
-  </div>
-
-  <div id="changePrice" class="modal">
-    <div class="modal-content">
-      <h5>Nuevo Precio</h5>
-      <div class="row mt">
-        <div class="input-field col s12 m6">
-          <input type="number" class="validate" min="0" [(ngModel)]="price" #fixP="ngModel" required>
-          <label class="active" for="fixP">Precio</label>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <a *ngIf="fixP.valid" (click)="fixPrice()" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
-      <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-    </div>
-  </div>
-
-
   <div class="row">
     <a class="waves-effect waves-light btn col s12 m8 l3" (click)="save()">Guardar</a>
   </div>
 
+</div>
+
+<div id="addDialog" class="modal">
+  <form #addForm="ngForm">
+    <div class="modal-content">
+      <h5>Agregar Horario</h5>
+      <h6>{{titleDialog}}</h6>
+      <div class="row mt">
+        <p>
+          <input name="dis" type="checkbox" #dis id="dis" [(ngModel)]="addDis" />
+          <label for="dis">Disponible para parquear</label>
+        </p>
+        <div class="input-field col s12 m6" *ngIf="addDis">
+          <input name="desde" type="time" class="validate" [(ngModel)]="addTi" #ti required>
+          <label class="active" for="ti">Desde</label>
+        </div>
+        <div class="input-field col s12 m6" *ngIf="addDis">
+          <input name="hasta" type="time" class="validate" [(ngModel)]="addTf" #tf required>
+          <label class="active" for="tf">Hasta</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a *ngIf="!addDis || addForm.valid" (click)="addTime()" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
+      <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+    </div>
+  </form>
+</div>
+
+<div id="changePrice" class="modal">
+  <div class="modal-content">
+    <h5>Nuevo Precio</h5>
+    <div class="row mt">
+      <div class="input-field col s12 m6">
+        <input type="number" class="validate" min="0" [(ngModel)]="price" #fixP="ngModel" required>
+        <label class="active" for="fixP">Precio</label>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a *ngIf="fixP.valid" (click)="fixPrice()" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
+    <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+  </div>
+</div>
+
+<div id="changeAllSchedule" class="modal">
+  <div class="modal-content">
+    <h5>Actualizar Horario</h5>
+    <p class="mb">El cambio realizado desvinculará todos los Auxiliares asignados a esta Zona, ¿ Desea continuar ?</p>
+    <div class="modal-footer">
+      <a (click)="deleteAuxs()" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
+      <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+    </div>
+  </div>
+</div>
+
+<div id="changeSchedule" class="modal">
+  <div class="modal-content">
+    <h5>Actualizar Horario</h5>
+    <p class="mb">Se desvincularán los Auxiliares asignados a los horarios eliminados, ¿ Desea continuar ?</p>
+    <div class="modal-footer">
+      <a (click)="deleteShedule()" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
+      <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+    </div>
+  </div>
 </div>

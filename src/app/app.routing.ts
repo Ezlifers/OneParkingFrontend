@@ -5,6 +5,8 @@ import { NotFoundComponent } from './+core/not-found/not-found.component';
 import { LoginComponent } from './+core/login/login.component';
 import { DashboardComponent } from './+core/dashboard/dashboard.component';
 
+import { AuthGuardService } from './+core/_index';
+
 import { zoneRoutes } from './zones/zones.routing';
 import { auxRoutes } from './auxs/auxs.routing';
 import { supervisorRoutes } from './supervisors/supervisors.routing';

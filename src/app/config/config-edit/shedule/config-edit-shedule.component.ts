@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Config } from '../../+shared/_index';
 import { TimeDescription } from '../../../zones/+shared/_index';
 
@@ -11,6 +11,7 @@ declare var $: any;
 export class ConfigEditSheduleComponent implements OnInit {
 
     @Input() config: Config;
+    @Output() scheduleDeleted = new EventEmitter<boolean>();
 
     titleDialog: string;
     addPos: number;
@@ -79,6 +80,7 @@ export class ConfigEditSheduleComponent implements OnInit {
     }
 
     removeTime(pos: number, h: number) {
+        this.scheduleDeleted.emit(true);
         this.config.tiempos[pos].horarios.splice(h, 1);
     }
 }

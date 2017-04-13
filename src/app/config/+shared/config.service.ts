@@ -25,7 +25,9 @@ export class ConfigService extends HttpClientService {
         return this.put(this.url, config, true).map(this.processObj).catch(this.handleError);
     }
 
-
+    public resetAuxs() {
+        return this.delete(`${this.url}/auxiliares`, true).map(this.process).catch(this.handleError);
+    }
 
 
 }

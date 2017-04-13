@@ -1,11 +1,11 @@
 <div class="section">
     <h5 class="mb">Auxiliares <i class="material-icons grey-text right clickable" (click)="removeDialog()">clear_all</i></h5>
 
-    <app-loader [size]="small" [show]="!auxs" [center]="true"></app-loader>
+    <app-loader [size]="small" [show]="!service.auxs" [center]="true"></app-loader>
 
-    <div *ngIf="auxs && auxs.length == 0">Auxiliares no asignados</div>
+    <div *ngIf="service.auxs && service.auxs.length == 0">Auxiliares no asignados</div>
 
-    <div *ngFor="let a of auxs; index as i">
+    <div *ngFor="let a of service.auxs; index as i">
         <div class="card-horizontal mt">
             <img class="aux-img mr" src="{{service.urlBase+a.imagen}}" />
             <div>

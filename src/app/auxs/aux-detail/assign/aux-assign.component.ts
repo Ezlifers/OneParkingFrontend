@@ -83,6 +83,7 @@ export class AuxAssignComponent implements OnInit {
             nombre: this.zone.nombre,
             direccion: this.zone.direccion,
             codigo: this.zone.codigo,
+            defaultTiempos: this.zone.configuracion.defaultTiempos,
             horarios: [
                 {
                     d: times.d,

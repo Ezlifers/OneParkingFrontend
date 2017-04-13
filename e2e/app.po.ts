@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class OneParkingPage {
+export class TestAngPage {
   navigateTo() {
     return browser.get('/');
   }

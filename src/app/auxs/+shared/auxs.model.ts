@@ -1,6 +1,6 @@
 import { User } from '../../+shared/models/user.model';
 
-export interface ScheduleAux{
+export interface ScheduleAux {
     ti: number;
     tf: number;
     d: boolean;
@@ -12,6 +12,7 @@ export interface ZoneAux {
     nombre: string;
     direccion: string;
     codigo: number;
+    defaultTiempos: boolean;
     horarios: ScheduleAux[];
 }
 

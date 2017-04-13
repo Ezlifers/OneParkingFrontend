@@ -10,6 +10,7 @@ import { Aux } from '../../auxs/+shared/_index';
 export class ZoneService extends HttpClientService {
 
     private url = '/api/zonas';
+    auxs: Aux[];
 
     constructor(http: Http, sesion: SessionService) {
         super(http, sesion);

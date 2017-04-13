@@ -31,6 +31,8 @@ export class ZoneConfSheduleComponent implements OnInit {
     conf: Config;
     defaultConfig: DefaultConfig;
 
+    scheduleDeleted: boolean;
+
     constructor(private configService: ZoneConfService, private service: ZoneService) {
         this.defaultConfig = configService.config;
     }
@@ -44,6 +46,7 @@ export class ZoneConfSheduleComponent implements OnInit {
     }
 
     restore() {
+        this.scheduleDeleted = false;
         this.dTimesIni = !this.conf.defaultTiempos;
         this.dTimes = this.conf.defaultTiempos;
         setTimeout(() => this.dTimesIni = !this.dTimesIni, 20);
@@ -89,9 +92,9 @@ export class ZoneConfSheduleComponent implements OnInit {
     }
 
     convertTime(time: string) {
-        let t: string[] = time.split(':');
-        let h: number = parseInt(t[0], 10);
-        let m: number = parseInt(t[1], 10);
+        const t: string[] = time.split(':');
+        const h: number = parseInt(t[0], 10);
+        const m: number = parseInt(t[1], 10);
         return (h * 60) + m;
     }
 
@@ -112,10 +115,20 @@ export class ZoneConfSheduleComponent implements OnInit {
     }
 
     removeTime(pos: number, h: number) {
+        this.scheduleDeleted = true;
         this.times[pos].horarios.splice(h, 1);
     }
 
     save() {
+
+        if (this.dTimes !== this.conf.defaultTiempos || this.scheduleDeleted) {
+            $('#changeAllSchedule').modal('open');
+        } else {
+            this.updateSchedules();
+        }
+    }
+
+    updateSchedules() {
         this.service.updateTimeShedule(this.zone._id, this.dTimes, this.times)
             .subscribe(res => this.success()
             , err => Materialize.toast('Error al actualizar el horario', 4000));
@@ -125,5 +138,17 @@ export class ZoneConfSheduleComponent implements OnInit {
         this.conf.defaultTiempos = this.dTimes;
         this.conf.tiempos = this.times;
         Materialize.toast('Horario Actualizado', 4000);
+    }
+
+
+    deleteAuxs() {
+        this.service.removeAllAux(this.zone._id).subscribe(res => {
+            if (!res) {
+                Materialize.toast('Error al actualizar el horario', 4000);
+                return;
+            }
+            this.service.auxs = [];
+            this.updateSchedules();
+        }, err => Materialize.toast('Error al actualizar el horario', 4000));
     }
 }

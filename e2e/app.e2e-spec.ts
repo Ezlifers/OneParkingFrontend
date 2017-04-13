@@ -1,10 +1,10 @@
-import { OneParkingPage } from './app.po';
+import { TestAngPage } from './app.po';
 
-describe('one-parking App', () => {
-  let page: OneParkingPage;
+describe('test-ang App', () => {
+  let page: TestAngPage;
 
   beforeEach(() => {
-    page = new OneParkingPage();
+    page = new TestAngPage();
   });
 
   it('should display message saying app works', () => {
