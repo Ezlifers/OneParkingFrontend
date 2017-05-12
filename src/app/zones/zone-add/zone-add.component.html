@@ -37,7 +37,7 @@
       <div class="col s12">
         <sebm-google-map [latitude]="centerLat" [longitude]="centerLon" [zoom]="15" [disableDefaultUI]="true" [zoomControl]="false"
           (mapClick)="mapClick($event)">
-          <sebm-google-map-marker [latitude]="zone.lat" [longitude]="zone.lon" [label]="'P'" [markerDraggable]="true" (dragEnd)="dragEnd($event)"></sebm-google-map-marker>
+          <sebm-google-map-marker [latitude]="zone.localizacion.cordinates[1]" [longitude]="zone.localizacion.cordinates[0]" [label]="'P'" [markerDraggable]="true" (dragEnd)="dragEnd($event)"></sebm-google-map-marker>
         </sebm-google-map>
       </div>
     </div>

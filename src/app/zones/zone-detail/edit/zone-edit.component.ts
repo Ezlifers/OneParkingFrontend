@@ -34,14 +34,14 @@ export class ZoneEditComponent implements OnInit {
 
     ngOnInit() {
         this.nBays = this.zone.bahias.length;
-        this.centerLat = this.zone.lat;
-        this.centerLon = this.zone.lon;
+        this.centerLat = this.zone.localizacion.cordinates[1];
+        this.centerLon = this.zone.localizacion.cordinates[0];
 
         this.name = this.zone.nombre;
         this.cod = this.zone.codigo;
         this.dir = this.zone.direccion;
-        this.lat = this.zone.lat;
-        this.lon = this.zone.lon;
+        this.lat = this.zone.localizacion.cordinates[1];
+        this.lon = this.zone.localizacion.cordinates[0];
 
     }
 
@@ -74,8 +74,8 @@ export class ZoneEditComponent implements OnInit {
         this.zone.nombre = this.name;
         this.zone.codigo = this.cod;
         this.zone.direccion = this.dir;
-        this.zone.lat = this.lat;
-        this.zone.lon = this.lon;
+        this.zone.localizacion.cordinates[1] = this.lat;
+        this.zone.localizacion.cordinates[0] = this.lon;
         this.finish.emit(null);
         Materialize.toast('Zona actualizada', 4000);
 

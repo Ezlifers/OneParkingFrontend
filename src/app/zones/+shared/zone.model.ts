@@ -57,10 +57,14 @@ export interface Bay {
     reserva: Reserve;
 }
 
+export interface Point {
+    cordinates: number[];
+}
+
+
 export interface ZoneBase {
     _id?: string;
-    lat: number;
-    lon: number;
+    localizacion: Point;
     codigo: number;
     nombre: string;
     direccion: string;
