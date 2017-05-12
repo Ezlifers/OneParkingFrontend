@@ -30,7 +30,7 @@ export class ZoneService extends HttpClientService {
     }
 
     public getZones(): Observable<Zone[]> {
-        return this.get(`${this.url}?settings=false&state=true&disability=true`, true).map(this.processList).catch(this.handleError);
+        return this.get(`${this.url}?settings=true&defaults=false&state=true&disability=true`, true).map(this.processList).catch(this.handleError);
     }
 
     public getBays(id: string): Observable<Bay[]> {
