@@ -58,7 +58,8 @@ export interface Bay {
 }
 
 export interface Point {
-    cordinates: number[];
+    type: string;
+    coordinates: number[];
 }
 
 

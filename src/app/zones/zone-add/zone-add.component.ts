@@ -21,8 +21,10 @@ export class ZoneAddComponent {
     centerLon = -76.60630663485716;
 
     constructor(private router: Router, private route: ActivatedRoute, private service: ZoneService) {
-        this.zone = { codigo: null, direccion: '', localizacion: { cordinates: [this.centerLon, this.centerLat] }
-            , nBahias: null, nombre: '' };
+        this.zone = {
+            codigo: null, direccion: '', localizacion: { type: 'Point', coordinates: [this.centerLon, this.centerLat] }
+            , nBahias: null, nombre: ''
+        };
     }
 
     add() {
@@ -50,13 +52,13 @@ export class ZoneAddComponent {
     }
 
     mapClick(event: any) {
-        this.zone.localizacion.cordinates[1] = event.coords.lat;
-        this.zone.localizacion.cordinates[0] = event.coords.lng;
+        this.zone.localizacion.coordinates[1] = event.coords.lat;
+        this.zone.localizacion.coordinates[0] = event.coords.lng;
     }
 
     dragEnd(event: any) {
-        this.zone.localizacion.cordinates[1] = event.coords.lat;
-        this.zone.localizacion.cordinates[0] = event.coords.lng;
+        this.zone.localizacion.coordinates[1] = event.coords.lat;
+        this.zone.localizacion.coordinates[0] = event.coords.lng;
 
     }
 

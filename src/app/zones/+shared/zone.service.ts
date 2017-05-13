@@ -47,7 +47,7 @@ export class ZoneService extends HttpClientService {
     }
 
     public update(id: string, nombre: string, codigo: number, direccion: string, lat: number, lon: number): Observable<boolean> {
-        const body = { nombre: nombre, codigo: codigo, direccion: direccion, localizacion: { cordinates: [lon, lat] } };
+        const body = { nombre: nombre, codigo: codigo, direccion: direccion, localizacion: { coordinates: [lon, lat] } };
         return this.put(`${this.url}/${id}`, body, true).map(this.process).catch(this.handleError);
     }
 
