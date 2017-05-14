@@ -1,6 +1,4 @@
 <div class="bahia">
   <div class="cod">Placa {{car.placa}}</div>
-  <div *ngIf="!extra">Libre en <span [class.blue-text]="!alarm" [class.orange-text]="alarm">{{time}} min</span></div>
-  <div *ngIf="!extra" class="gray-text text-lighten-2">+ {{extraTime/60}} min de retiro</div>
-  <div *ngIf="extra">retiro en <span class="red-text">{{time}} min</span></div>
+  <div>Libre en <span [class.blue-text]="!alarm" [class.orange-text]="alarm">{{time}} min</span></div>
 </div>

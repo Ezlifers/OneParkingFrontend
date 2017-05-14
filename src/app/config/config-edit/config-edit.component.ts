@@ -24,7 +24,6 @@ export class ConfigEditComponent implements OnInit {
         this.newConfig = {
             tiempoMin: this.config.tiempoMin / 60,
             tiempoMax: this.config.tiempoMax / 60,
-            tiempoExtra: this.config.tiempoExtra / 60,
             precio: this.config.precio,
             vehiculosUsuario: this.config.vehiculosUsuario,
             tiempos: JSON.parse(JSON.stringify(this.config.tiempos))
@@ -74,7 +73,6 @@ export class ConfigEditComponent implements OnInit {
         this.config.tiempoMin = this.newConfig.tiempoMin;
         this.config.tiempoMax = this.newConfig.tiempoMax;
         this.config.tiempos = this.newConfig.tiempos;
-        this.config.tiempoExtra = this.newConfig.tiempoExtra;
         this.config.precio = this.newConfig.precio;
         this.config.vehiculosUsuario = this.newConfig.vehiculosUsuario;
         Materialize.toast('Configuraciones actualizadas', 4000);

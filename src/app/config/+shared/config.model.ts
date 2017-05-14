@@ -5,7 +5,6 @@ export interface Config {
     vehiculosUsuario: number;
     tiempoMax: number;
     tiempoMin: number;
-    tiempoExtra: number;
     tiempos: TimeRange[];
 }
 

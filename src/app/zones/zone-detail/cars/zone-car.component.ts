@@ -11,18 +11,15 @@ const alarmTime = 300;
 export class ZoneCarComponent implements OnInit, OnDestroy {
 
     @Input() car: Car;
-    @Input() extraTime: number;
     @Input() timeComplete;
     @Input() index: number;
     @Output() finish = new EventEmitter<number>();
 
-    extra: boolean;
     alarm: boolean;
     time: number;
     interval: any;
 
     constructor() {
-        this.extra = false;
         this.alarm = false;
     }
 
@@ -36,25 +33,15 @@ export class ZoneCarComponent implements OnInit, OnDestroy {
     }
 
     calculateTime() {
-
         const now = Date.now() / 1000;
-        let timeOut: number = this.timeComplete - now;
-        if (timeOut >= 0) {
+        const timeOut: number = this.timeComplete - now;
+        if (timeOut > 0) {
+            this.time = parseInt(`${timeOut / 60}`, 10) + 1;
             if (timeOut <= alarmTime) {
                 this.alarm = true;
             }
         } else {
-            timeOut += this.extraTime;
-            this.extra = true;
-        }
-        if (timeOut > 0) {
-            this.time = parseInt(`${timeOut / 60}`, 10 ) + 1;
-        } else {
             this.finish.emit(this.index);
         }
-
     }
-
-
-
 }

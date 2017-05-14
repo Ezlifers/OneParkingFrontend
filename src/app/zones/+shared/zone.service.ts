@@ -60,11 +60,10 @@ export class ZoneService extends HttpClientService {
         return this.put(`${this.url}/${id}/bahias/discapacidad`, body, true).map(this.process).catch(this.handleError);
     }
 
-    public updateTimes(id: string, max: number, globalMax: boolean, min: number, globalMin: boolean, extra: number, globalExtra: boolean) {
+    public updateTimes(id: string, max: number, globalMax: boolean, min: number, globalMin: boolean) {
         const body = {
             tiempoMax: { default: globalMax, value: max }
             , tiempoMin: { default: globalMin, value: min }
-            , tiempoExtra: { default: globalExtra, value: extra }
         };
         return this.put(`${this.url}/${id}/tiempos`, body, true).map(this.process).catch(this.handleError);
     }

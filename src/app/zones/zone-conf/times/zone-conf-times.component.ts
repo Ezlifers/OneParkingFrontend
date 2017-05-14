@@ -19,9 +19,6 @@ export class ZoneConfTimesComponent implements OnInit {
     dMax: boolean;
     tMax: number;
 
-    dExtra: boolean;
-    tExtra: number;
-
     conf: Config;
     defaultConf: DefaultConfig;
     loading: boolean;
@@ -39,10 +36,8 @@ export class ZoneConfTimesComponent implements OnInit {
     setupTimes() {
         this.dMax = this.conf.defaultTiempoMax;
         this.dMin = this.conf.defaultTiempoMin;
-        this.dExtra = this.conf.defaultTiempoExtra;
         this.tMax = this.conf.tiempoMax / 60;
         this.tMin = this.conf.tiempoMin / 60;
-        this.tExtra = this.conf.tiempoExtra / 60;
     }
 
     restore() {
@@ -67,21 +62,11 @@ export class ZoneConfTimesComponent implements OnInit {
         }
     }
 
-    changeExtra(checked: boolean) {
-        this.dExtra = checked;
-        if (checked) {
-            this.tExtra = this.defaultConf.tiempoExtra / 60;
-        } else {
-            this.tExtra = this.conf.tiempoExtra / 60;
-        }
-    }
-
     save() {
         this.loading = true;
         const valueMin = this.tMin * 60;
         const valueMax = this.tMax * 60;
-        const valueExtra = this.tExtra * 60;
-        this.service.updateTimes(this.zone._id, valueMax, this.dMax, valueMin, this.dMin, valueExtra, this.dExtra)
+        this.service.updateTimes(this.zone._id, valueMax, this.dMax, valueMin, this.dMin)
             .subscribe(res => this.success()
             , err => {
                 this.loading = false;
@@ -95,8 +80,6 @@ export class ZoneConfTimesComponent implements OnInit {
         this.conf.tiempoMax = (this.tMax * 60);
         this.conf.defaultTiempoMin = this.dMin;
         this.conf.tiempoMin = (this.tMin * 60);
-        this.conf.defaultTiempoExtra = this.dExtra;
-        this.conf.tiempoExtra = (this.tExtra * 60);
         Materialize.toast('Tiempos actualizados', 4000);
     }
 

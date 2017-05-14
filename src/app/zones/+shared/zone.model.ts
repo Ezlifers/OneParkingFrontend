@@ -28,8 +28,6 @@ export interface Config {
     tiempoMax?: number;
     defaultTiempoMin?: boolean;
     tiempoMin?: number;
-    defaultTiempoExtra?: boolean;
-    tiempoExtra?: number;
     defaultTiempos?: boolean;
     tiempos?: TimeRange[];
 }

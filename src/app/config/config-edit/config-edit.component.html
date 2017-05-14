@@ -20,12 +20,6 @@
             </div>
 
             <div class="input-field col s12 m6">
-                <input name="tex" type="number" [(ngModel)]="newConfig.tiempoExtra" [class.invalid]="!tEx.valid && !tEx.pristine" class="validate"
-                    #tEx="ngModel" required>
-                <label class="active" for="tEx">Tiempo Extra (Min)</label>
-            </div>
-
-            <div class="input-field col s12 m6">
                 <input name="pmin" type="number" [(ngModel)]="newConfig.precio" [class.invalid]="!pMin.valid && !pMin.pristine" class="validate"
                     #pMin="ngModel" required>
                 <label class="active" for="pMin">Precio Minimo</label>

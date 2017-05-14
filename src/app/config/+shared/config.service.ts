@@ -21,7 +21,6 @@ export class ConfigService extends HttpClientService {
     public editConfig(config: Config) {
         config.tiempoMax = config.tiempoMax * 60;
         config.tiempoMin = config.tiempoMin * 60;
-        config.tiempoExtra = config.tiempoExtra * 60;
         return this.put(this.url, config, true).map(this.processObj).catch(this.handleError);
     }
 
