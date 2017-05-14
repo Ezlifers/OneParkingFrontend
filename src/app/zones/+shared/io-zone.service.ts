@@ -3,24 +3,23 @@ import * as io from 'socket.io-client';
 import { URL_BASE } from '../../app.settings';
 import { Observable } from 'rxjs/Observable';
 
-export const RESERVE = 0;
-export const END_RESERVE = 1;
+import { Reserve } from './_index';
 
 @Injectable()
-export class IOGlobalService {
+export class IOZoneService {
 
-    private url = `${URL_BASE}/socket/global`;
+    private url = `${URL_BASE}/socket/zones`;
     private socket;
 
-    connect(): Observable<IOGlobal> {
+    connect(id: string): Observable<IOZone> {
         const observable = new Observable(observer => {
             this.socket = io(this.url);
-            this.socket.emit('subscribe');
-            this.socket.on('global_state', (data) => {
+            this.socket.emit('subscribe', { zone: id });
+            this.socket.on('reserves', (data) => {
                 observer.next(data);
             });
             return () => {
-                this.socket.emit('unsubscribe');
+                this.socket.emit('unsubscribe', { zone: id });
                 this.socket.disconnect();
             };
         })
@@ -30,8 +29,7 @@ export class IOGlobalService {
 
 }
 
-export interface IOGlobal {
-    id: string;
-    type: number;
-    dis: boolean;
+export interface IOZone {
+    bay: string;
+    reserve: Reserve;
 }

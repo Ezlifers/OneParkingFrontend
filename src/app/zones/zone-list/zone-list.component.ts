@@ -1,7 +1,7 @@
 import { RESERVE } from '../+shared/io-global.service';
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ZoneService, Zone, MapComponent, IOGlobalService } from '../+shared/_index';
+import { ZoneService, Zone, MapComponent, IOGlobalService, IOGlobal } from '../+shared/_index';
 import { NavigationService } from '../../+core/_index';
 
 declare var Materialize: any;
@@ -33,28 +33,27 @@ export class ZoneListComponent implements AfterViewInit, OnDestroy {
   loadZones(data: Zone[], error: boolean) {
     this.nav.loading = false;
     if (error) {
-      Materialize.toast('Error al leer zonas', 4000)
+      Materialize.toast('Error al leer zonas', 4000);
       return;
     }
 
     let index = 0;
-    for (const z of this.zones) {
+    for (const z of data) {
       this.indexs[z._id] = index;
       index++;
     }
 
     this.zones = data;
-    this.ioConnection = this.io.connect().subscribe((data) => {
-      const i = this.indexs[data.id];
-      if (data.dis) {
+    this.ioConnection = this.io.connect().subscribe((globalData: IOGlobal) => {
+      const i = this.indexs[globalData.id];
+      if (globalData.dis) {
         const size = this.zones[i].estado.disOcupadas;
-        this.zones[i].estado.disOcupadas = data.type === RESERVE ? size + 1 : size - 1;
+        this.zones[i].estado.disOcupadas = globalData.type === RESERVE ? size + 1 : size - 1;
       } else {
         const size = this.zones[i].estado.bahiasOcupadas;
-        this.zones[i].estado.bahiasOcupadas = data.type === RESERVE ? size + 1 : size - 1;
+        this.zones[i].estado.bahiasOcupadas = globalData.type === RESERVE ? size + 1 : size - 1;
       }
-
-    })
+    });
   }
 
   goToAdd() {

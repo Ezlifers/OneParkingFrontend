@@ -4,7 +4,7 @@ import { SharedModule } from '../+shared/shared.module';
 
 import { GOOGLE_MAP_KEY } from '../app.settings';
 
-import { MapComponent, ZoneService, IOGlobalService } from './+shared/_index';
+import { MapComponent, ZoneService, IOGlobalService, IOZoneService } from './+shared/_index';
 import { ZoneListComponent } from './zone-list/zone-list.component';
 import { ZoneAddComponent } from './zone-add/zone-add.component';
 
@@ -52,6 +52,6 @@ import { ZonesComponent } from './zones.component';
         AgmCoreModule.forRoot({
             apiKey: GOOGLE_MAP_KEY
         })],
-    providers: [ZoneService, IOGlobalService]
+    providers: [ZoneService, IOGlobalService, IOZoneService]
 })
 export class ZonesModule { }
