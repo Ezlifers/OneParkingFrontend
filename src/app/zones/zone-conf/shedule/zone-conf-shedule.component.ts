@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Zone, ZoneService, TimeDescription, TimeRange, Config } from '../../+shared/_index';
+import { Zone, ZoneService, TimeDescription, TimeRange } from '../../+shared/_index';
 import { ZoneConfService } from '../zone-conf.service';
 import { Config as DefaultConfig } from '../../../config/+shared/_index';
 
@@ -22,15 +22,8 @@ export class ZoneConfSheduleComponent implements OnInit {
     addPos: number;
     addTi: string;
     addTf: string;
-    addDis: boolean;
 
-    price: number;
-    pricePos: number;
-    priceH: number;
-
-    conf: Config;
     defaultConfig: DefaultConfig;
-
     scheduleDeleted: boolean;
 
     constructor(private configService: ZoneConfService, private service: ZoneService) {
@@ -39,16 +32,15 @@ export class ZoneConfSheduleComponent implements OnInit {
 
     ngOnInit() {
         $('.modal').modal();
-        this.conf = this.zone.configuracion;
-        this.dTimesIni = this.conf.defaultTiempos;
-        this.dTimes = this.conf.defaultTiempos;
-        this.times = this.conf.tiempos;
+        this.dTimesIni = this.zone.defaultTiempos;
+        this.dTimes = this.zone.defaultTiempos;
+        this.times = this.zone.tiempos;
     }
 
     restore() {
         this.scheduleDeleted = false;
-        this.dTimesIni = !this.conf.defaultTiempos;
-        this.dTimes = this.conf.defaultTiempos;
+        this.dTimesIni = !this.zone.defaultTiempos;
+        this.dTimes = this.zone.defaultTiempos;
         setTimeout(() => this.dTimesIni = !this.dTimesIni, 20);
     }
 
@@ -61,7 +53,7 @@ export class ZoneConfSheduleComponent implements OnInit {
                 { tipo: 'Lunes-Viernes', horarios: [] }, { tipo: 'Sabado', horarios: [] }, { tipo: 'Domingo', horarios: [] }
             ];
         } else {
-            this.times = this.conf.tiempos;
+            this.times = this.zone.tiempos;
         }
 
     }
@@ -69,7 +61,6 @@ export class ZoneConfSheduleComponent implements OnInit {
     showDialog(title: string, pos: number) {
         this.titleDialog = title;
         this.addPos = pos;
-        this.addDis = true;
         this.addTi = '';
         this.addTf = '';
         $('#addDialog').modal('open');
@@ -78,11 +69,9 @@ export class ZoneConfSheduleComponent implements OnInit {
     addTime() {
         $('#addDialog').modal('close');
         const time: TimeDescription = {
-            d: this.addDis,
+            d: true,
             ti: this.convertTime(this.addTi),
-            tf: this.convertTime(this.addTf),
-            dp: true,
-            p: this.defaultConfig.precio
+            tf: this.convertTime(this.addTf)
         };
         this.times[this.addPos].horarios.push(time);
 
@@ -98,30 +87,13 @@ export class ZoneConfSheduleComponent implements OnInit {
         return (h * 60) + m;
     }
 
-    changeGlobalPrice(pos: number, h: number, checked: boolean) {
-        this.times[pos].horarios[h].dp = checked;
-    }
-
-    changePrice(pos: number, h: number, price: number) {
-        this.price = price;
-        this.priceH = h;
-        this.pricePos = pos;
-        $('#changePrice').modal('open');
-    }
-
-    fixPrice() {
-        $('#changePrice').modal('close');
-        this.times[this.pricePos].horarios[this.priceH].p = this.price;
-    }
-
     removeTime(pos: number, h: number) {
         this.scheduleDeleted = true;
         this.times[pos].horarios.splice(h, 1);
     }
 
     save() {
-
-        if (this.dTimes !== this.conf.defaultTiempos || this.scheduleDeleted) {
+        if (this.dTimes !== this.zone.defaultTiempos || this.scheduleDeleted) {
             $('#changeAllSchedule').modal('open');
         } else {
             this.updateSchedules();
@@ -135,9 +107,13 @@ export class ZoneConfSheduleComponent implements OnInit {
     }
 
     success() {
-        this.conf.defaultTiempos = this.dTimes;
-        this.conf.tiempos = this.times;
+        this.zone.defaultTiempos = this.dTimes;
+        this.zone.tiempos = this.times;
         Materialize.toast('Horario Actualizado', 4000);
+    }
+
+    changeAvailability(time: number, schedule: number, checked: boolean) {
+        this.times[time].horarios[schedule].d = checked;
     }
 
 

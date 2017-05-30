@@ -44,9 +44,7 @@ export class ConfigEditSheduleComponent implements OnInit {
         const tiempo: TimeDescription = {
             d: this.addDis,
             ti: this.convertTime(this.addTi),
-            tf: this.convertTime(this.addTf),
-            dp: true,
-            p: this.config.precio
+            tf: this.convertTime(this.addTf)
         };
         this.config.tiempos[this.addPos].horarios.push(tiempo);
         this.config.tiempos[this.addPos].horarios.sort((a, b) => {
@@ -61,23 +59,10 @@ export class ConfigEditSheduleComponent implements OnInit {
         return (h * 60) + m;
     }
 
-    changeGlobalPrice(pos: number, h: number, checked: boolean) {
-        this.config.tiempos[pos].horarios[h].dp = checked;
-        if (!this.config.tiempos[pos].horarios[h].p) {
-            this.config.tiempos[pos].horarios[h].p = this.config.precio;
-        }
+    changeAvailability(time: number, schedule: number, checked: boolean) {
+        this.config.tiempos[time].horarios[schedule].d = checked;
     }
 
-    changePrice(pos: number, h: number, price: number) {
-        this.price = price;
-        this.priceH = h;
-        this.pricePos = pos;
-        $('#changePrice').modal('open');
-    }
-
-    fixPrice() {
-        this.config.tiempos[this.pricePos].horarios[this.priceH].p = this.price;
-    }
 
     removeTime(pos: number, h: number) {
         this.scheduleDeleted.emit(true);

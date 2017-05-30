@@ -60,8 +60,8 @@ export class AuxAssignComponent implements OnInit {
         this.day = day;
         this.shedule = shedule;
         this.zone = zone;
-        this.timeFrom = zone.configuracion.tiempos[day].horarios[shedule].ti;
-        this.timeTo = zone.configuracion.tiempos[day].horarios[shedule].tf;
+        this.timeFrom = zone.tiempos[day].horarios[shedule].ti;
+        this.timeTo = zone.tiempos[day].horarios[shedule].tf;
         switch (day) {
             case 0: this.timeMsg = 'en los siguientes dias'; break;
             case 1: this.timeMsg = 'en el dia sabado'; break;
@@ -71,7 +71,7 @@ export class AuxAssignComponent implements OnInit {
     }
 
     assign() {
-        const times = this.zone.configuracion.tiempos[this.day].horarios[this.shedule];
+        const times = this.zone.tiempos[this.day].horarios[this.shedule];
         let daysAux;
         switch (this.day) {
             case 0: daysAux = this.getDays(); break;
@@ -83,7 +83,7 @@ export class AuxAssignComponent implements OnInit {
             nombre: this.zone.nombre,
             direccion: this.zone.direccion,
             codigo: this.zone.codigo,
-            defaultTiempos: this.zone.configuracion.defaultTiempos,
+            defaultTiempos: this.zone.defaultTiempos,
             horarios: [
                 {
                     d: times.d,

@@ -14,22 +14,11 @@ export interface TimeDescription {
     d: boolean;
     ti: number;
     tf: number;
-    dp: boolean;
-    p: number;
 }
 
 export interface TimeRange {
     tipo: string;
     horarios: TimeDescription[];
-}
-
-export interface Config {
-    defaultTiempoMax?: boolean;
-    tiempoMax?: number;
-    defaultTiempoMin?: boolean;
-    tiempoMin?: number;
-    defaultTiempos?: boolean;
-    tiempos?: TimeRange[];
 }
 
 export interface State {
@@ -72,7 +61,8 @@ export interface ZoneBase {
 
 export interface Zone extends ZoneBase {
     bahias?: Bay[];
-    configuracion?: Config;
+    defaultTiempos?: boolean;
+    tiempos?: TimeRange[];
     estado?: State;
 }
 

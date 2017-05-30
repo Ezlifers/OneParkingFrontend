@@ -1,7 +1,7 @@
 import { TimeRange } from '../../zones/+shared/_index';
 
 export interface Config {
-    precio: number;
+    precio: number[];
     vehiculosUsuario: number;
     tiempoMax: number;
     tiempoMin: number;

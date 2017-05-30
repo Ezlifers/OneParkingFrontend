@@ -11,7 +11,7 @@
         <div class="col s12 mt">
             <div *ngFor="let z of zones; index as i">
                 <h5>{{z.codigo|zero}} - {{ z.nombre}}</h5>
-                <div *ngFor="let tu of z.configuracion.tiempos; index as j">
+                <div *ngFor="let tu of z.tiempos; index as j">
                     <div *ngIf="tu.horarios.length > 0">
                         <b>{{tu.tipo}}</b>
                         <ul class="collection">

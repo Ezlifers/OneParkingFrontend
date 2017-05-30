@@ -1,5 +1,5 @@
 <div class="section">
-    <h4 class="detail-title mb">Horarios y precios</h4>
+    <h4 class="detail-title mb">Horarios por Defecto</h4>
     <div class="section mt">
         <div *ngFor="let tu of config.tiempos; index as i">
             <b class="blue-text">{{tu.tipo}}</b>
@@ -10,25 +10,24 @@
                 <thead>
                     <tr>
                         <th data-field="horario">Horario</th>
-                        <th data-field="tarifaDefecto">Tarifa por defecto</th>
-                        <th data-field="tarifa">Tarifa</th>
+                        <th data-field="tarifaDefecto">Disponibilidad</th>
+                        <th data-field="disSwitch"></th>
                         <th data-field="eliminar"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let t of tu.horarios;index as j">
                         <td>{{t.ti|timeMinute}} a {{t.tf|timeMinute}}</td>
-                        <td *ngIf="t.d">
+                        <td *ngIf="t.d">Disponible</td>
+                        <td *ngIf="!t.d">Prohibido</td>
+                        <td>
                             <div class="switch">
                                 <label>
-                                    <input #dp type="checkbox" [checked]="t.dp" (change)="changeGlobalPrice(i,j,dp.checked)">
+                                    <input #d type="checkbox" [checked]="t.d" (change)="changeAvailability(i,j,d.checked)">
                                     <span class="lever"></span>
                                 </label>
                             </div>
                         </td>
-                        <td *ngIf="t.d && t.dp">{{config.precio}}</td>
-                        <td *ngIf="t.d && !t.dp" class="blue-text text-lighten-3 clickable" (click)="changePrice(i,j,t.p)">{{t.p}}</td>
-                        <td *ngIf="!t.d" colspan="2">Parqueo prohibido</td>
                         <td>
                             <i class="tiny material-icons grey-text vc clickable" (click)="removeTime(i,j)">cancel</i>
                         </td>
@@ -46,10 +45,6 @@
             <h5>Agregar Horario</h5>
             <h6>{{titleDialog}}</h6>
             <div class="row mt">
-                <p>
-                    <input type="checkbox" #dis id="dis" checked (change)="changeDis(dis.checked)" />
-                    <label for="dis">Disponible para parquear</label>
-                </p>
                 <div class="input-field col s12 m6">
                     <input type="time" class="validate" [(ngModel)]="addTi" #ti required>
                     <label class="active" for="ti">Desde</label>
@@ -65,21 +60,4 @@
             <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
         </div>
     </div>
-
-    <div id="changePrice" class="modal">
-        <div class="modal-content">
-            <h5>Nuevo Precio</h5>
-            <div class="row mt">
-                <div class="input-field col s12 m6">
-                    <input type="number" class="validate" [(ngModel)]="price" #fixP required>
-                    <label class="active" for="fixP">Precio</label>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a (click)="fixPrice()" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
-            <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-        </div>
-    </div>
-
 </div>

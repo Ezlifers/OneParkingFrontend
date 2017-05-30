@@ -10,7 +10,6 @@ import { ZoneAddComponent } from './zone-add/zone-add.component';
 
 import { ZoneBayComponent } from './zone-conf/bays/zone-bay.component';
 import { ZoneBaysComponent } from './zone-conf/bays/zone-bays.component';
-import { ZoneConfTimesComponent } from './zone-conf/times/zone-conf-times.component';
 import { ZoneConfSheduleComponent } from './zone-conf/shedule/zone-conf-shedule.component';
 import { ZoneConfComponent } from './zone-conf/zone-conf.component';
 
@@ -33,7 +32,6 @@ import { ZonesComponent } from './zones.component';
         ZoneAddComponent,
         ZoneBayComponent,
         ZoneBaysComponent,
-        ZoneConfTimesComponent,
         ZoneConfSheduleComponent,
         ZoneConfComponent,
         ZoneAuxComponent,

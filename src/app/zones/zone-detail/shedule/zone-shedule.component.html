@@ -12,14 +12,14 @@
                         <thead>
                             <tr>
                                 <th data-field="horario">Horario</th>
-                                <th data-field="tarifa">Tarifa (Tiempo Minimo)</th>
+                                <th data-field="tarifa">Disponibilidad</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let t of tu.horarios">
                                 <td>{{t.ti|timeMinute}} a {{t.tf|timeMinute}}</td>
-                                <td *ngIf="t.d">{{t.p}}</td>
-                                <td *ngIf="!t.d">No disponible</td>
+                                <td *ngIf="t.d"><i class="tiny material-icons grey-text vc">done</i></td>
+                                <td *ngIf="!t.d"><i class="tiny material-icons grey-text vc">not_interested</i></td>
                             </tr>
                         </tbody>
                     </table>

@@ -96,7 +96,7 @@ export class AuxService extends HttpClientService {
             }
             queryText = `q=${JSON.stringify(query)}&`;
         }
-        return this.get(`${this.urlZones}?${queryText}o={"nombre":1}&settings=true&defaults=true&state=false&disability=false`, true)
+        return this.get(`${this.urlZones}?${queryText}o={"nombre":1}&times=all&state=false&disability=false`, true)
             .map(this.processList).catch(this.handleError);
     }
 

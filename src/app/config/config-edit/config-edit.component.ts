@@ -15,6 +15,7 @@ export class ConfigEditComponent implements OnInit {
 
     loading: boolean;
     newConfig: Config;
+    prices: string;
     scheduleDeleted: boolean;
 
     constructor(private service: ConfigService) { }
@@ -24,10 +25,11 @@ export class ConfigEditComponent implements OnInit {
         this.newConfig = {
             tiempoMin: this.config.tiempoMin / 60,
             tiempoMax: this.config.tiempoMax / 60,
-            precio: this.config.precio,
+            precio: [],
             vehiculosUsuario: this.config.vehiculosUsuario,
             tiempos: JSON.parse(JSON.stringify(this.config.tiempos))
         };
+        this.prices = this.config.precio.join(', ');
     }
 
     scheduleDelete(deleted: boolean) {
@@ -35,6 +37,20 @@ export class ConfigEditComponent implements OnInit {
     }
 
     edit() {
+        const newPrices = this.prices.replace(/\s/g, '').split(',');
+
+        if (this.newConfig.tiempoMin <= 0 || this.newConfig.tiempoMax <= 0) {
+            Materialize.toast('El tiempo maximo o minimo no pueden ser menores o iguales a cero', 4000);
+            return;
+        } else if (this.newConfig.tiempoMax % this.newConfig.tiempoMin !== 0) {
+            Materialize.toast('El tiempo maximo debe ser multiplo del tiempo minimo', 4000);
+            return;
+        } else if (newPrices.length !== (this.newConfig.tiempoMax / this.newConfig.tiempoMin)) {
+            Materialize.toast('La cantidad de precios = Tiempo Maximo / Tiempo Minimo', 4000);
+            return;
+        }
+
+        this.newConfig.precio = newPrices.map(Number);
         if (this.scheduleDeleted) {
             $('#changeAllSchedule').modal('open');
         } else {

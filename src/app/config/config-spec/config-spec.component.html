@@ -12,9 +12,22 @@
       <div>Tiempo minimo de parqueo</div>
       <div>{{config.tiempoMin|min}}</div>
     </div>
-    <div class="detail col s4">
-      <div>Precio por tiempo minimo</div>
-      <div>{{config.precio}}</div>
+    <div class="detail col s12">
+      <div>Precios</div>
+      <table class="bordered striped">
+        <thead>
+          <tr class="grey-text">
+            <th>Tiempo (min)</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of config.precio; index as i">
+            <td> {{ i * (config.tiempoMin / 60) + 1 }} a {{ (i+1) * (config.tiempoMin / 60) }} </td>
+            <td>{{ p | number:'3.0-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
   </div>

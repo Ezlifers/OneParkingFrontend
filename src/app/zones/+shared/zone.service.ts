@@ -30,7 +30,7 @@ export class ZoneService extends HttpClientService {
     }
 
     public getZones(): Observable<Zone[]> {
-        return this.get(`${this.url}?settings=false&defaults=false&state=true&disability=true`, true)
+        return this.get(`${this.url}?times=none&state=true&disability=true`, true)
             .map(this.processList).catch(this.handleError);
     }
 
@@ -39,7 +39,7 @@ export class ZoneService extends HttpClientService {
     }
 
     public getZone(id: string): Observable<Zone> {
-        return this.get(`${this.url}/${id}?defaults=true&bays=true&settings=true`, true).map(this.processObj).catch(this.handleError);
+        return this.get(`${this.url}/${id}?times=all&bays=true`, true).map(this.processObj).catch(this.handleError);
     }
 
     public getAuxs(id: string): Observable<Aux[]> {
@@ -58,14 +58,6 @@ export class ZoneService extends HttpClientService {
     public updateDisability(id: string, pos: number, dis: boolean): Observable<boolean> {
         const body = { pos: pos, dis: dis };
         return this.put(`${this.url}/${id}/bahias/discapacidad`, body, true).map(this.process).catch(this.handleError);
-    }
-
-    public updateTimes(id: string, max: number, globalMax: boolean, min: number, globalMin: boolean) {
-        const body = {
-            tiempoMax: { default: globalMax, value: max }
-            , tiempoMin: { default: globalMin, value: min }
-        };
-        return this.put(`${this.url}/${id}/tiempos`, body, true).map(this.process).catch(this.handleError);
     }
 
     public updateTimeShedule(id: string, defaults: boolean, times: TimeRange[]) {
