@@ -36,7 +36,6 @@ export class ZoneListComponent implements AfterViewInit, OnDestroy {
       Materialize.toast('Error al leer zonas', 4000);
       return;
     }
-
     let index = 0;
     for (const z of data) {
       this.indexs[z._id] = index;

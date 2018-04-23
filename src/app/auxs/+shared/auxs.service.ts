@@ -20,6 +20,7 @@ export class AuxService extends HttpClientService {
     public insertAux(aux: Aux): Observable<[boolean, string, boolean]> {
         aux.zonas = [];
         aux.tipo = 'Auxiliar';
+        aux.version = 0;
         return this.post(this.urlUsers, aux, true).map(this.processAdd).catch(this.handleError);
     }
 

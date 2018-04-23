@@ -19,4 +19,5 @@ export interface ZoneAux {
 export interface Aux extends User {
     dispositivo: string;
     zonas?: ZoneAux[];
+    version?: number;
 }
