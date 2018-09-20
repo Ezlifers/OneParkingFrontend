@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { SessionService, User } from '../_index';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs';
 import { HttpClientService } from '../../+shared/_index';
-import { SECRET, ROLES } from '../../app.settings';
+import { ROLES } from '../../app.settings';
+import { SessionService, User } from '../_index';
 
 @Injectable()
 export class LoginService extends HttpClientService {
