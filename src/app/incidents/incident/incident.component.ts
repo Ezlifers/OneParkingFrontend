@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Incident, IncidentService } from '../+shared/_index';
+import { finalize } from 'rxjs/operators';
 
 declare var $: any;
 declare var Materialize: any;
@@ -36,18 +37,11 @@ export class IncidentComponent implements OnInit {
 
     attend() {
         this.loading = true;
-        this.service.attendIncident(this.incident._id).subscribe(
-            success => this.processAttend(true), err => this.processAttend(false)
+        this.service.attendIncident(this.incident._id).pipe(
+            finalize(() => this.loading = false)
+        ).subscribe(
+            () => this.attended.emit(this.index), () => Materialize.toast('Error al atender incidencia', 4000)
         );
     }
 
-    processAttend(success: boolean) {
-        this.loading = false;
-        if (!success) {
-            Materialize.toast('Error al atender incidencia', 4000);
-            return;
-        }
-        Materialize.toast('Incidencia marcada como atendida', 4000)
-        this.attended.emit(this.index);
-    }
 }

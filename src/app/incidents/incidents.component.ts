@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Incident, IncidentService } from './+shared/_index';
 import { NavigationService } from '../+core/_index';
+import { finalize } from 'rxjs/operators';
 
 declare var $: any;
 declare var Materialize: any;
@@ -70,18 +71,13 @@ export class IncidentsComponent implements OnInit {
     private loadIncidents() {
         this.loading = true;
         this.incidents = [];
-        this.service.getIncidents(this.dateFrom, this.dateTo, this.all)
-            .subscribe(data => this.processIncidents(true, data), err => this.processIncidents(false, []));
-    }
-
-    private processIncidents(success: boolean, data: Incident[]) {
-        this.searched = true;
-        this.loading = false;
-        if (!success) {
-            Materialize.toast('Error al leer incidencias', 4000);
-            return;
-        }
-        this.incidents = data;
+        this.service.getIncidents(this.dateFrom, this.dateTo, this.all).pipe(
+            finalize(() => {
+                this.searched = true;
+                this.loading = false;
+            })
+        )
+            .subscribe(data => this.incidents = data, () => Materialize.toast('Error al leer incidencias', 4000));
     }
 
     private getToday() {

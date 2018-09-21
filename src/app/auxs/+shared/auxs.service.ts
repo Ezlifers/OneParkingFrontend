@@ -88,7 +88,7 @@ export class AuxService extends HttpClientService {
     public searchZones(q?: string): Observable<Zone[]> {
         let queryText = '';
         if (q) { queryText = `&q=${encodeURI(q)}`; }
-        return this.http.get<Rspn<Zone[]>>(this.makeUrl(urlZone, '?times=all&sort=nombre', queryText), this.makeAuth()).pipe(
+        return this.http.get<Rspn<Zone[]>>(this.makeUrl(urlZone + '?times=all&sort=nombre', queryText), this.makeAuth()).pipe(
             map(x => validate(x))
         );
     }

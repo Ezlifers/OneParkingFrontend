@@ -1,23 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Incident } from './incident.model';
-import { Http, Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { SessionService } from '../../+core/_index';
 import { HttpClientService } from '../../+shared/_index';
+import { Rspn } from '../../+shared/models/rspn.model';
+import { urlIncident } from '../../+shared/services/http-client.service';
+import { Incident } from './_index';
+import { map } from 'rxjs/operators';
+import { validate } from '../../+shared/util/http-util';
+
 
 @Injectable()
 export class IncidentService extends HttpClientService {
 
     private url = '/api/incidencias';
 
-    constructor(http: Http, session: SessionService) {
-        super(http, session);
+    constructor(private http: HttpClient, session: SessionService) {
+        super(session);
     }
 
     getIncidents(fromDate: string, toDate: string, all: boolean) {
 
         let q = '?';
-        const sort = 'sort={"fecha":-1}';
+        const sort = 'sort=fecha,desc';
 
         if (fromDate && fromDate !== '') {
             q += `${q}from=${fromDate}&`;
@@ -28,11 +32,16 @@ export class IncidentService extends HttpClientService {
         if (all) {
             q += 'all=true&';
         }
-        return this.get(`${this.url}${q}${sort}`, true).map(this.processList).catch(this.handleError);
+
+        return this.http.get<Rspn<Incident[]>>(this.makeUrl(urlIncident + q + sort), this.makeAuth()).pipe(
+            map(x => validate(x))
+        );
     }
 
     attendIncident(id: string) {
-        return this.put(`${this.url}/${id}`, null, true).map(this.process).catch(this.handleError);
+        return this.http.put<Rspn<string>>(this.makeUrl(urlIncident, id), {}, this.makeAuth()).pipe(
+            map(x => validate(x))
+        );
     }
 
 }

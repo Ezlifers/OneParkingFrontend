@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { User, SessionService } from '../../+core/_index';
 import { ProfileService } from '../+shared/profile.service';
+import { finalize } from 'rxjs/operators';
 
 declare var Materialize: any;
 
@@ -43,68 +44,53 @@ export class ProfileEditComponent implements OnInit {
     }
 
     edit() {
-        this.loading = true;
         if (this.image) {
             this.reader.readAsDataURL(this.image);
         } else {
-            this.service.updateUser(this.session.id, this.name, this.document, this.celNumber, null, null)
-                .subscribe(
-                res => this.edited(res[0], res[1], res[2]),
-                error => this.edited(false, false, null)
-                );
+            this.editProfile(null);
         }
+    }
+
+    editProfile(img: string) {
+        this.loading = true;
+        this.service.updateUser(this.session.id, this.name, this.document, this.celNumber, img).pipe(
+            finalize(() => this.loading = false)
+        ).subscribe(
+            () => {
+                this.session.user.nombre = this.name;
+                this.session.user.cedula = this.document;
+                this.session.user.celular = this.celNumber;
+                Materialize.toast('Usuario actualizado', 4000);
+                this.finish.emit(null);
+            },
+            () => Materialize.toast('Error al editar usuario', 4000)
+        );
     }
 
     loadedImg(profileEdit: ProfileEditComponent) {
         return function (e: any) {
             const image: string = e.target.result;
             const base: string[] = image.split(',');
-            const imgPath: string[] = profileEdit.session.user.imagen.split('/');
-            const imgName: string = imgPath[imgPath.length - 1];
 
-            profileEdit.service.updateUser(profileEdit.session.id,
-                profileEdit.name, profileEdit.document, profileEdit.celNumber, base[1], imgName
-            ).subscribe(
-                res => profileEdit.edited(res[0], res[1], res[2]),
-                error => profileEdit.edited(false, false, null)
-                );
+            profileEdit.editProfile(base[1]);
         };
     }
 
-    edited(success: boolean, failImg: boolean, urlImage: string) {
-        this.loading = false;
+    edited() {
 
-        if (!success) {
-            Materialize.toast(failImg ? 'Error al cargar la nueva imagen' : 'Error al editar usuario', 4000);
-            return;
-        }
-
-        this.session.user.nombre = this.name;
-        this.session.user.cedula = this.document;
-        this.session.user.celular = this.celNumber;
-        if (urlImage) {
-            this.session.user.imagen = urlImage;
-        }
-        Materialize.toast('Usuario actualizado', 4000);
-        this.finish.emit(null);
     }
 
     resetPass() {
         this.loadingPass = true;
-        this.service.updatePass(this.session.id, this.newPass)
-            .subscribe(
-            res => this.resetedPass(res),
-            error => this.resetedPass(false)
-            );
+        this.service.updatePass(this.session.id, this.newPass).pipe(
+            finalize(() => this.loadingPass = false)
+        ).subscribe(
+            () => {
+                Materialize.toast('Contraseña reiniciada ', 4000);
+                this.finish.emit(null);
+            },
+            () => Materialize.toast('Error al reiniciar password', 4000)
+        );
     }
 
-    resetedPass(success: boolean) {
-        this.loadingPass = false;
-        if (!success) {
-            Materialize.toast('Error al reiniciar password', 4000);
-            return;
-        }
-        Materialize.toast('Contraseña reiniciada ', 4000);
-        this.finish.emit(null);
-    }
 }

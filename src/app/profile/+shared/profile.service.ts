@@ -1,40 +1,35 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Http, Response } from '@angular/http';
-import { SessionService, User } from '../../+core/_index';
+import { SessionService } from '../../+core/_index';
 import { HttpClientService } from '../../+shared/_index';
+import { Observable } from 'rxjs';
+import { urlUsr } from '../../+shared/services/http-client.service';
+import { validate } from '../../+shared/util/http-util';
+import { Rspn } from '../../+shared/models/rspn.model';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ProfileService extends HttpClientService {
 
-    private url = '/api/usuarios';
-
-    constructor(http: Http, sesion: SessionService) {
-        super(http, sesion);
+    constructor(private http: HttpClient, sesion: SessionService) {
+        super(sesion);
     }
 
-    public updateUser(id: string, name: string, doc: string, cel: string
-        , img: string, imgName: string): Observable<[boolean, boolean, string]> {
-        const body: any = { nombre: name, cedula: doc, celular: cel, imgMod: false };
+    public updateUser(id: string, name: string, doc: string, cel: string, img: string): Observable<string> {
+        const body: any = { img: false, usuario: { nombre: name, cedula: doc, celular: cel, imgMod: false } };
         if (img) {
-            body.imagen = img;
-            body.imgMod = true;
-            body.imgName = imgName;
+            body.usuario.imagen = img;
+            body.img = true;
         }
-        return this.put(`${this.url}/${id}`, body, true).map(this.processUpdate).catch(this.handleError);
+        return this.http.put<Rspn<string>>(this.makeUrl(urlUsr, id), body, this.makeAuth()).pipe(
+            map(x => validate(x))
+        );
     }
 
-    private processUpdate(res: Response) {
-        const body = res.json();
-        if (body.success) {
-            return [true, false, body.imgUrl];
-        } else {
-            return [false, body.failImg, null];
-        }
-    }
-
-    public updatePass(id: string, newPass: string) {
-        const body = { password: newPass };
-        return this.put(`${this.url}/${id}`, body, true).map(this.process).catch(this.handleError);
+    public updatePass(id: string, newPass: string): Observable<string> {
+        const body = { img: false, usuario: { password: newPass } };
+        return this.http.put<Rspn<string>>(this.makeUrl(urlUsr, id), body, this.makeAuth()).pipe(
+            map(x => validate(x))
+        );
     }
 }

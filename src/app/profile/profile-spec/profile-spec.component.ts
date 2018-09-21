@@ -1,6 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { User, SessionService } from '../../+core/_index';
-import { ProfileService } from '../+shared/profile.service';
+import { Component } from '@angular/core';
+import { SessionService, User } from '../../+core/_index';
 
 
 @Component({
@@ -9,7 +8,7 @@ import { ProfileService } from '../+shared/profile.service';
 })
 export class ProfileSpecComponent {
     user: User;
-    constructor(private session: SessionService, private service: ProfileService) {
+    constructor(session: SessionService) {
         this.user = session.user;
     }
 }

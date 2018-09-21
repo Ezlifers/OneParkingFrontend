@@ -6,6 +6,7 @@ export const urlUsr = 'usuarios';
 export const urlZone = 'zonas';
 export const urlAuth = 'auth';
 export const urlConfig = 'configuracion';
+export const urlIncident = 'incidencias';
 
 export abstract class HttpClientService {
 
