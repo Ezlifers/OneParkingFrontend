@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Aux, AuxService } from '../+shared/_index';
+import { finalize } from 'rxjs/operators';
 
 declare var Materialize: any;
 
@@ -29,35 +30,27 @@ export class AuxAddComponent {
             const image: string = e.target.result;
             const base: string[] = image.split(',');
             auxAdd.aux.imagen = base[1];
-            auxAdd.service.insertAux(auxAdd.aux).subscribe(
-                res => auxAdd.added(res),
-                error => auxAdd.added([false, null, false])
-            );
-        }
+            auxAdd.addProcess();
+        };
     }
 
     add() {
-        this.loading = true;
         this.aux.usuario = this.aux.cedula;
         if (this.file) {
             this.reader.readAsDataURL(this.file);
         } else {
             this.aux.imagen = null;
-            this.service.insertAux(this.aux).subscribe(
-                res => this.added(res),
-                error => this.added([false, null, false])
-            );
+            this.addProcess();
         }
     }
 
-    added(res: [boolean, string, boolean]) {
-        const [success, id, failImg] = res;
-        this.loading = false;
-        if (!success) {
-            Materialize.toast(failImg ? 'Error al cargar imagen, intenta de nuevo' : 'Error al ingresar Auxiliar', 4000);
-            return;
-        }
-        Materialize.toast('Operación Exitosa', 4000);
-        this.router.navigate(['../'], { relativeTo: this.route });
+    addProcess() {
+        this.loading = true;
+        this.service.insertAux(this.aux).pipe(
+            finalize(() => this.loading = false)
+        ).subscribe(x => {
+            Materialize.toast('Operación Exitosa', 4000);
+            this.router.navigate(['../'], { relativeTo: this.route });
+        }, () => Materialize.toast('Error al ingresar Auxiliar', 4000));
     }
 }

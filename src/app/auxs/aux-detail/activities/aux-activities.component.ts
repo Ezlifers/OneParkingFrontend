@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuxService, AuxSelectedService } from '../../+shared/_index';
+import { AuxService } from '../../+shared/_index';
 
 declare var Materialize: any;
 
@@ -14,7 +14,7 @@ export class AuxActivitiesComponent implements OnInit {
 
     dateIni: string;
 
-    constructor(private service: AuxService, private selected: AuxSelectedService) { }
+    constructor(private service: AuxService) { }
 
     ngOnInit() {
         const date = new Date();
@@ -43,7 +43,7 @@ export class AuxActivitiesComponent implements OnInit {
             this.searched = true;
         } else {
             this.searched = false;
-            Materialize.toast('Error al obtener los registros de actividad', 4000)
+            Materialize.toast('Error al obtener los registros de actividad', 4000);
         }
     }
 

@@ -2,19 +2,49 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SessionService {
-    public user: User;
-    public type: string;
-    public token: string;
-    public logged: boolean;
-    public id: string;
-    public permission: any;
+
+    set user(value: User) {
+        sessionStorage.setItem('user', JSON.stringify(value));
+    }
+
+    get user(): User {
+        return JSON.parse(sessionStorage.getItem('type'));
+    }
+
+    set type(value: string) {
+        sessionStorage.setItem('type', value);
+    }
+    get type(): string {
+        return sessionStorage.getItem('type');
+    }
+
+    set token(value: string) {
+        sessionStorage.setItem('token', value);
+    }
+    get token(): string {
+        return sessionStorage.getItem('token');
+    }
+
+    set logged(value: boolean) {
+        sessionStorage.setItem('logged', '' + value);
+    }
+    get logged(): boolean {
+        return sessionStorage.getItem('logged') === 'true';
+    }
+
+    set id(value: string) {
+        sessionStorage.setItem('id', value);
+    }
+    get id(): string {
+        return sessionStorage.getItem('id');
+    }
 
     reset() {
         this.user = null;
-        this.type = '';
-        this.token = '';
+        this.type = null;
+        this.token = null;
         this.logged = false;
-        this.id = '';
+        this.id = null;
     }
 }
 
@@ -26,22 +56,3 @@ export interface User {
     celular: string;
     imagen: string;
 }
-
-/*export interface Permission {
-    usuarios: PermissionAction;
-
-    configuracion: PermissionAction;
-
-}
-
-export interface PermissionAction {
-    get?: boolean;
-    getSelf?: boolean;
-    getList?: boolean;
-    insert?: boolean;
-    update?: boolean;
-    delete?: boolean;
-    resetPass?: boolean;
-    updatePass?: boolean;
-}*/
-

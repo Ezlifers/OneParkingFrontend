@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ScheduleAux, ZoneAux, AuxSelectedService, AuxService } from '../../+shared/_index';
+import { ScheduleAux, ZoneAux, AuxService, Aux } from '../../+shared/_index';
 
 declare var Materialize: any;
 
@@ -15,9 +15,11 @@ export class AuxZoneComponent implements OnInit {
     @Input() zIndex: number;
 
     days: boolean[];
+    aux: Aux;
 
-    constructor(private selected: AuxSelectedService, private service: AuxService) {
+    constructor(private service: AuxService) {
         this.days = [false, false, false, false, false, false, false];
+        this.aux = this.service._selected;
     }
 
     ngOnInit() {
@@ -25,34 +27,21 @@ export class AuxZoneComponent implements OnInit {
     }
 
     remove() {
-        if (this.zone.horarios.length > 1) {
-            this.service.removeSchedule(this.selected.aux._id, this.zone.id, this.schedule)
-                .subscribe(
-                res => this.removed(res),
-                err => this.removed(false)
-                );
-        } else {
-            this.service.removeZone(this.selected.aux._id, this.zone.id)
-                .subscribe(
-                res => this.removed(res),
-                err => this.removed(false)
-                );
-        }
 
+        (this.zone.horarios.length > 1 ? this.service.removeSchedule(this.aux._id, this.zone.id, this.schedule)
+            : this.service.removeZone(this.aux._id, this.zone.id))
+            .subscribe(
+                res => this.removed(),
+                err => Materialize.toast('Error al eliminar horario', 4000)
+            );
     }
 
-    removed(success: boolean) {
-        if (!success) {
-            Materialize.toast('Error al eliminar horario', 4000);
-            return;
-        }
-
+    removed() {
         if (this.zone.horarios.length > 1) {
-            this.selected.aux.zonas[this.zIndex].horarios.splice(this.sIndex, 1);
+            this.aux.zonas[this.zIndex].horarios.splice(this.sIndex, 1);
         } else {
-            this.selected.aux.zonas.splice(this.zIndex, 1);
+            this.aux.zonas.splice(this.zIndex, 1);
         }
-
         Materialize.toast('Horario eliminado', 4000);
     }
 }

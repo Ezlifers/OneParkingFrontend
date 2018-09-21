@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { Aux, AuxService, AuxSelectedService } from '../../+shared/_index';
+import { Aux, AuxService } from '../../+shared/_index';
+import { finalize } from 'rxjs/operators';
 
 declare var Materialize: any;
 
@@ -23,16 +24,16 @@ export class AuxEditComponent implements OnInit {
     image: File = null;
     reader: FileReader;
 
-    constructor(private service: AuxService, private selected: AuxSelectedService) {
+    constructor(private service: AuxService) {
         this.reader = new FileReader();
         this.reader.onload = this.loadedImg(this);
     }
 
     ngOnInit() {
-        this.name = this.selected.aux.nombre;
-        this.document = this.selected.aux.cedula;
-        this.celNumber = this.selected.aux.celular;
-        this.device = this.selected.aux.dispositivo;
+        this.name = this.service._selected.nombre;
+        this.document = this.service._selected.cedula;
+        this.celNumber = this.service._selected.celular;
+        this.device = this.service._selected.dispositivo;
         this.image = null;
         this.tempPass = '';
     }
@@ -46,11 +47,12 @@ export class AuxEditComponent implements OnInit {
         if (this.image) {
             this.reader.readAsDataURL(this.image);
         } else {
-            this.service.updateAux(this.selected.aux._id, this.name, this.document, this.celNumber, this.device, null, null)
-                .subscribe(
-                res => this.edited(res[0], res[1], res[2]),
-                error => this.edited(false, false, null)
-                );
+            this.service.updateAux(this.service._selected._id, this.name, this.document, this.celNumber, this.device, null).pipe(
+                finalize(() => this.loading = false)
+            ).subscribe(
+                res => this.edited(),
+                () => Materialize.toast('Error al editar auxiliar', 4000)
+            );
         }
     }
 
@@ -58,50 +60,36 @@ export class AuxEditComponent implements OnInit {
         return function (e: any) {
             const image: string = e.target.result;
             const base: string[] = image.split(',');
-            const imgPath: string[] = auxEdit.selected.aux.imagen.split('/');
-            const imgName: string = imgPath[imgPath.length - 1];
 
-            auxEdit.service.updateAux(auxEdit.selected.aux._id
-                , auxEdit.name, auxEdit.document, auxEdit.celNumber, auxEdit.device, base[1], imgName
+            auxEdit.service.updateAux(auxEdit.service._selected._id
+                , auxEdit.name, auxEdit.document, auxEdit.celNumber, auxEdit.device, base[1]
             ).subscribe(
-                res => auxEdit.edited(res[0], res[1], res[2]),
-                error => auxEdit.edited(false, false, null)
-                );
-        }
+                res => this.edited(),
+                () => Materialize.toast('Error al editar auxiliar', 4000)
+            );
+        };
     }
 
-    edited(success: boolean, failImg: boolean, urlImage: string) {
-        this.loading = false;
-        if (!success) {
-            Materialize.toast(failImg ? 'Error al cargar la nueva imagen' : 'Error al editar auxiliar', 4000);
-            return;
-        }
-        this.selected.aux.nombre = this.name;
-        this.selected.aux.cedula = this.document;
-        this.selected.aux.dispositivo = this.device;
-        this.selected.aux.celular = this.celNumber;
-        if (urlImage) {
-            this.selected.aux.imagen = urlImage;
-        }
+    edited() {
+        this.service._selected.nombre = this.name;
+        this.service._selected.cedula = this.document;
+        this.service._selected.dispositivo = this.device;
+        this.service._selected.celular = this.celNumber;
         Materialize.toast('Auxiliar actualizado', 4000);
         this.finish.emit(null);
     }
 
     resetPass() {
         this.loadingPass = true;
-        this.service.resetPass(this.selected.aux._id, this.tempPass)
-            .subscribe(
-            res => this.resetedPass(res),
-            error => this.resetedPass(false)
-            );
+        this.service.resetPass(this.service._selected._id, this.tempPass).pipe(
+            finalize(() => this.loadingPass = false)
+        ).subscribe(
+            () => this.resetedPass(),
+            () => Materialize.toast('Error al reiniciar password', 4000)
+        );
     }
 
-    resetedPass(success: boolean) {
-        this.loadingPass = false;
-        if (!success) {
-            Materialize.toast('Error al reiniciar password', 4000);
-            return;
-        }
+    resetedPass() {
         Materialize.toast('Contraseña reiniciada', 4000);
         this.finish.emit(null);
     }

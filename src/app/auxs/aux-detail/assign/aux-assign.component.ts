@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuxService, AuxSelectedService, ZoneAux, ScheduleAux } from '../../+shared/_index';
+import { AuxService, ZoneAux, Aux } from '../../+shared/_index';
 import { Zone } from '../../../zones/+shared/_index';
+import { finalize } from 'rxjs/operators';
 
 declare var $: any;
 declare var Materialize: any;
@@ -24,10 +25,13 @@ export class AuxAssignComponent implements OnInit {
     timeTo: number;
     timeMsg: string;
 
-    constructor(private service: AuxService, private selected: AuxSelectedService) {
+    aux: Aux;
+
+    constructor(private service: AuxService) {
         this.searched = false;
         this.loading = false;
         this.zones = [];
+        this.aux = this.service._selected;
     }
 
     ngOnInit() {
@@ -37,16 +41,9 @@ export class AuxAssignComponent implements OnInit {
     search(q: string) {
         this.loading = true;
         this.searched = true;
-        this.service.searchZones(q)
-            .subscribe(
-            res => this.searchEnd(res),
-            err => this.searchEnd([])
-            );
-    }
-
-    searchEnd(data: Zone[]) {
-        this.zones = data;
-        this.loading = false;
+        this.service.searchZones(q).pipe(
+            finalize(() => this.loading = false)
+        ).subscribe(x => this.zones = x);
     }
 
     keyUp(e: any, q: string) {
@@ -95,7 +92,7 @@ export class AuxAssignComponent implements OnInit {
 
         };
 
-        const zones = this.selected.aux.zonas;
+        const zones = this.aux.zonas;
         let match = false;
         for (const z of zones) {
             if (z.id === this.zoneA.id) {
@@ -128,8 +125,8 @@ export class AuxAssignComponent implements OnInit {
         if (match) {
             Materialize.toast('Horario ya asignado o presenta un conflicto', 4000);
         } else {
-            this.service.addZone(this.selected.aux._id, this.zoneA).subscribe(
-                res => this.assigned(res), err => this.assigned(false)
+            this.service.addZone(this.aux._id, this.zoneA).subscribe(
+                res => this.assigned(), err => Materialize.toast('Error al asignar horario a auxiliar', 4000)
             );
         }
     }
@@ -142,15 +139,10 @@ export class AuxAssignComponent implements OnInit {
         return d;
     }
 
-    assigned(success: boolean) {
-        if (!success) {
-            Materialize.toast('Error al asignar horario a auxiliar', 4000);
-            return;
-        }
-
+    assigned() {
         let zoneIndex = -1;
         let zoneMatch = false;
-        for (const zone of this.selected.aux.zonas) {
+        for (const zone of this.aux.zonas) {
             zoneIndex++;
             if (this.zoneA.id === zone.id) {
                 zoneMatch = true;
@@ -158,9 +150,9 @@ export class AuxAssignComponent implements OnInit {
             }
         }
         if (!zoneMatch) {
-            this.selected.aux.zonas.push(this.zoneA);
+            this.aux.zonas.push(this.zoneA);
         } else {
-            this.selected.aux.zonas[zoneIndex].horarios.push(this.zoneA.horarios[0]);
+            this.aux.zonas[zoneIndex].horarios.push(this.zoneA.horarios[0]);
         }
         Materialize.toast('Asignación exitosa', 4000);
     }

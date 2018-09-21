@@ -1,7 +1,8 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuxService, Aux, AuxSelectedService } from '../+shared/_index';
+import { AuxService, Aux } from '../+shared/_index';
 import { NavigationService } from '../../+core/_index';
+import { finalize } from 'rxjs/operators';
 
 
 declare var Materialize: any;
@@ -16,21 +17,13 @@ export class AuxListComponent implements AfterViewInit {
   constructor(private router: Router
     , private route: ActivatedRoute
     , private nav: NavigationService
-    , private service: AuxService
-    , private selected: AuxSelectedService) { }
+    , private service: AuxService) { }
 
   ngAfterViewInit() {
     this.nav.loading = true;
-    this.service.getAuxs(true).subscribe(data => this.loadAuxs(data, false), error => this.loadAuxs(null, true));
-  }
-
-  loadAuxs(data: Aux[], err: boolean) {
-    this.nav.loading = false;
-    if (err) {
-      Materialize.toast('Error al leer auxiliares', 4000);
-      return;
-    }
-    this.auxs = data;
+    this.service.getAuxs().pipe(
+      finalize(() => this.nav.loading = false)
+    ).subscribe(x => this.auxs = x, () => Materialize.toast('Error al leer auxiliares', 4000));
   }
 
   goToAdd() {
@@ -38,7 +31,7 @@ export class AuxListComponent implements AfterViewInit {
   }
 
   goToAux(aux: Aux) {
-    this.selected.aux = aux;
+    this.service.select(aux);
     this.router.navigate(['./' + aux._id], { relativeTo: this.route });
   }
 

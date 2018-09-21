@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ZoneAux, AuxSelectedService, AuxService } from '../../+shared/_index';
+import { ZoneAux, AuxService, Aux } from '../../+shared/_index';
 
 declare var $: any;
 declare var Materialize: any;
@@ -10,7 +10,11 @@ declare var Materialize: any;
 })
 export class AuxZonesComponent {
 
-    constructor(private selected: AuxSelectedService) { }
+    aux: Aux;
+
+    constructor(private service: AuxService) {
+        this.aux = service._selected;
+    }
 
     assingZone() {
         $('ul.tabs').tabs('select_tab', 'assign');

@@ -1,33 +1,39 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { HttpClientService } from '../../+shared/_index';
 import { ROLES } from '../../app.settings';
 import { SessionService, User } from '../_index';
+import { Rspn } from '../../+shared/models/rspn.model';
 
 @Injectable()
 export class LoginService extends HttpClientService {
 
-    private url = '/api/usuarios/login';
-
-    constructor(http: Http, session: SessionService) {
-        super(http, session);
+    constructor(private http: HttpClient, session: SessionService) {
+        super(session);
     }
 
-    public login(usr: string, pass: string): Observable<[boolean, User, any, string]> {
-        const body = { user: usr, password: pass, roles: ROLES, timestamp: Date.now() };
-        return this.post(this.url, body, false)
-            .map(this.processLogin)
-            .catch(this.handleError);
-    }
+    public login(usr: string, pass: string): Observable<Rspn<{ token: string, user: User }>> {
+        const body = { user: usr, password: pass, roles: ROLES };
+        return this.http.post<Rspn<{ token: string, user: User }>>(this.makeUrl('auth', 'login'), body).pipe(
+            tap(x => {
+                if (x.success) {
+                    const u = x.data.user;
+                    this.session.id = u._id;
+                    this.session.logged = true;
+                    this.session.token = x.data.token;
+                    this.session.type = x.data.user.tipo;
+                    this.session.user = {
+                        _id: u._id, cedula: u.cedula,
+                        imagen: u.imagen, nombre: u.nombre,
+                        celular: u.celular, tipo: u.tipo
+                    };
+                }
+            })
+        );
 
-    private processLogin(res: Response) {
-        const body = res.json();
-        if (body.success) {
-            return [true, body.user, body.permissions, body.token];
-        } else {
-            return [false, null, null];
-        }
+
     }
 
 }
