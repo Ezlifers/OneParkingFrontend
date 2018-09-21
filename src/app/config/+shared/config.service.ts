@@ -1,31 +1,37 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { HttpClientService } from '../../+shared/_index';
+import { HttpClient } from '@angular/common/http';
 import { SessionService } from '../../+core/_index';
+import { HttpClientService } from '../../+shared/_index';
 import { Config } from './config.model';
+import { Observable } from 'rxjs';
+import { urlConfig } from '../../+shared/services/http-client.service';
+import { Rspn } from '../../+shared/models/rspn.model';
+import { map } from 'rxjs/operators';
+import { validate } from '../../+shared/util/http-util';
 
 @Injectable()
 export class ConfigService extends HttpClientService {
 
-    private url = '/api/configuracion';
-
-    constructor(http: Http, sesion: SessionService) {
-        super(http, sesion);
+    constructor(private http: HttpClient, sesion: SessionService) {
+        super(sesion);
     }
 
     public getConfig(): Observable<Config> {
-        return this.get(this.url, true).map(this.processObj).catch(this.handleError);
+        return this.http.get<Rspn<Config>>(this.makeUrl(urlConfig), this.makeAuth()).pipe(
+            map(x => validate(x))
+        );
     }
 
-    public editConfig(config: Config) {
+    public editConfig(config: Config): Observable<string> {
         config.tiempoMax = config.tiempoMax * 60;
         config.tiempoMin = config.tiempoMin * 60;
-        return this.put(this.url, config, true).map(this.processObj).catch(this.handleError);
+        return this.http.put<Rspn<string>>(this.makeUrl(urlConfig), config, this.makeAuth()).pipe(
+            map(x => validate(x))
+        );
     }
 
     public resetAuxs() {
-        return this.delete(`${this.url}/auxiliares`, true).map(this.process).catch(this.handleError);
+        // return this.delete(`${this.url}/auxiliares`, true).map(this.process).catch(this.handleError);
     }
 
 

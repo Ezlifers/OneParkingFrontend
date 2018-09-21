@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Config, ConfigService } from '../+shared/_index';
+import { finalize } from 'rxjs/operators';
 
 declare var Materialize: any;
 declare var $: any;
@@ -55,16 +56,17 @@ export class ConfigEditComponent implements OnInit {
             $('#changeAllSchedule').modal('open');
         } else {
             this.loading = true;
-            this.service.editConfig(this.newConfig)
-                .subscribe(
-                res => this.edited(res),
-                error => this.edited(false)
-                );
+            this.service.editConfig(this.newConfig).pipe(
+                finalize(() => this.loading = false)
+            ).subscribe(
+                () => this.edited(),
+                () => Materialize.toast('Error al editar las configuraciones', 4000)
+            );
         }
     }
 
     deleteAuxs() {
-        this.loading = true;
+        /* this.loading = true;
         this.service.resetAuxs().subscribe(resAuxs => {
             if (resAuxs) {
                 this.service.editConfig(this.newConfig)
@@ -77,15 +79,10 @@ export class ConfigEditComponent implements OnInit {
             }
         }, err => {
             Materialize.toast('Error al editar las configuraciones', 4000);
-        });
+        });*/
     }
 
-    edited(success: boolean) {
-        this.loading = false;
-        if (!success) {
-            Materialize.toast('Error al editar las configuraciones', 4000);
-            return;
-        }
+    edited() {
         this.config.tiempoMin = this.newConfig.tiempoMin;
         this.config.tiempoMax = this.newConfig.tiempoMax;
         this.config.tiempos = this.newConfig.tiempos;

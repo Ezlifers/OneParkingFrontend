@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Config, ConfigService } from './+shared/_index';
 import { NavigationService } from '../+core/_index';
+import { finalize } from 'rxjs/operators';
 
 declare var Materialize: any;
 
@@ -32,16 +33,9 @@ export class ConfigComponent implements OnInit {
     ngOnInit() {
         this.nav.loading = true;
         this.nav.title = 'Configuración';
-        this.service.getConfig().subscribe(
-            res => {
-                this.nav.loading = false;
-                this.config = res;
-            },
-            err => {
-                this.nav.loading = false;
-                Materialize.toast('Error al cargar la coniguración', 4000);
-            }
-        );
+        this.service.getConfig().pipe(
+            finalize(() => this.nav.loading = false)
+        ).subscribe(res => this.config = res, () => Materialize.toast('Error al cargar la coniguración', 4000));
     }
 
     edit() {
